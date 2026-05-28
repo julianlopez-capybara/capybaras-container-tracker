@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Container Tracker · Celestial Ops</title>
+<title>Container Tracker · Capybaras Agency</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;480;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <script>
   // Theme bootstrap — runs before paint to avoid FOUC
@@ -26,7 +26,7 @@
 
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-<link rel="preconnect" href="https://zsvezilcpqhnakhbdtym.supabase.co" crossorigin>
+<link rel="preconnect" href="https://tbeevwknhhxyxeurfsdh.supabase.co" crossorigin>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -46,25 +46,26 @@
 
 <style>
   :root{
-    /* ============ ANTIMETAL TOKENS ============ */
-    /* Core palette (theme-agnostic) */
-    --midnight-navy:     #1b2540;
-    --deep-cosmos:       #001033;
-    --chartreuse-pulse:  #d0f100;
-    --chartreuse-hover:  #b8d600;
-    --ice-veil:          #e0f6ff;
-    --ghost-canvas:      #f8f9fc;
+    /* ============ CAPYBARAS TOKENS ============ */
+    /* Core palette (theme-agnostic). Var names kept from Antimetal era for
+       compatibility; values are now the Capybaras brand palette. */
+    --midnight-navy:     #0E0E0E;   /* near-black: dark surface / text on light */
+    --deep-cosmos:       #000000;   /* pure black: page bg in dark */
+    --chartreuse-pulse:  #FF3300;   /* brand orange — accent / CTA */
+    --chartreuse-hover:  #E62E00;
+    --ice-veil:          #FFE9E0;
+    --ghost-canvas:      #ffffff;
     --pure-surface:      #ffffff;
-    --slate-ink:         #6b7184;
-    --ash-medium:        #7c8293;
-    --storm-gray:        #596075;
-    --fog-border:        #b1b5c0;
-    --hero-gradient:     linear-gradient(180deg, #001033 0%, #0050f8 55%, #5fbdf7 100%);
+    --slate-ink:         #6b6b6b;
+    --ash-medium:        #8a8a8a;
+    --storm-gray:        #4d4d4d;
+    --fog-border:        #d6d6d6;
+    --hero-gradient:     linear-gradient(135deg, #FF3300 0%, #E85B03 100%);
 
-    /* Typography */
-    --font-ui:      'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --font-display: 'Fraunces', ui-serif, Georgia, serif;
-    --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    /* Typography — Blauer Nue substituted by DM Sans / Space Mono on web */
+    --font-ui:      'DM Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-display: 'DM Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-mono:    'Space Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
     /* Type Scale */
     --text-caption: 13px;
@@ -90,69 +91,69 @@
     --shadow-subtle: rgba(255, 255, 255, 0.72) 0px 1px 1px 0px inset, rgba(4, 33, 80, 0.02) 0px 8px 16px 0px, rgba(4, 33, 80, 0.03) 0px 4px 12px 0px, rgba(4, 33, 80, 0.06) 0px 1px 2px 0px, rgba(4, 33, 80, 0.04) 0px 0px 0px 1px;
     --shadow-cta: rgba(24, 37, 66, 0.32) 0px 1px 3px 0px, rgba(24, 37, 66, 0.12) 0px 0.5px 0.5px 0px, rgba(24, 37, 66, 0.44) 0px 12px 24px -12px, rgba(219, 247, 255, 0.06) 0px 8px 16px 0px inset, rgba(219, 247, 255, 0.48) 0px 0.5px 0.5px 0px inset;
 
-    /* ===== Light theme (default) — Antimetal palette with blue depth ===== */
-    --bg:            #e8edf5;
+    /* ===== Light theme (default) — Capybaras light context (white + orange) ===== */
+    --bg:            #f4f4f4;
     --bg-elevated:   var(--ghost-canvas);
-    --bg-recessed:   #d8dde8;
-    --bg-overlay:    rgba(232, 237, 245, .85);
+    --bg-recessed:   #e8e8e8;
+    --bg-overlay:    rgba(244, 244, 244, .85);
 
     --text-primary:    var(--midnight-navy);
-    --text-secondary:  var(--slate-ink);
+    --text-secondary:  var(--storm-gray);
     --text-tertiary:   var(--ash-medium);
-    --text-on-accent:  var(--midnight-navy);
-    --text-on-dark:    #fafeff;
+    --text-on-accent:  #ffffff;
+    --text-on-dark:    #ffffff;
 
-    --border-soft:    rgba(27, 37, 64, .08);
-    --border-medium:  rgba(27, 37, 64, .14);
+    --border-soft:    rgba(14, 14, 14, .08);
+    --border-medium:  rgba(14, 14, 14, .14);
     --border-strong:  var(--fog-border);
 
     --accent:         var(--chartreuse-pulse);
     --accent-hover:   var(--chartreuse-hover);
-    --accent-fg:      var(--midnight-navy);
-    --accent-glow:    rgba(208, 241, 0, .35);
+    --accent-fg:      #ffffff;
+    --accent-glow:    rgba(255, 51, 0, .30);
 
-    --action-blue:    var(--deep-cosmos);
-    --status-pending:   #7c8293;
-    --status-transit:   #0050f8;
-    --status-port:      #001033;
-    --status-customs:   #6b7184;
-    --status-delivered: #00a86b;
+    --action-blue:    var(--chartreuse-pulse);
+    --status-pending:   #8a8a8a;
+    --status-transit:   #F59E0B;
+    --status-port:      #FF3300;
+    --status-customs:   #E85B03;
+    --status-delivered: #1f9d57;
 
-    --header-bg: rgba(232, 237, 245, .82);
+    --header-bg: rgba(255, 255, 255, .82);
     --map-tile-style: 'light';
     --table-row-bg: var(--pure-surface);
-    --table-row-hover: var(--ghost-canvas);
+    --table-row-hover: #faf3f0;
   }
 
   [data-theme="dark"]{
     --bg:            var(--deep-cosmos);
-    --bg-elevated:   #0a1a3d;
-    --bg-recessed:   #051333;
-    --bg-overlay:    rgba(0, 16, 51, .85);
+    --bg-elevated:   #0E0E0E;
+    --bg-recessed:   #080808;
+    --bg-overlay:    rgba(0, 0, 0, .85);
 
-    --text-primary:    #fafeff;
-    --text-secondary:  #b1b5c0;
-    --text-tertiary:   #7c8293;
-    --text-on-accent:  var(--midnight-navy);
-    --text-on-dark:    #fafeff;
+    --text-primary:    #F5F5F5;
+    --text-secondary:  #A3A3A3;
+    --text-tertiary:   #6B6B6B;
+    --text-on-accent:  #ffffff;
+    --text-on-dark:    #F5F5F5;
 
-    --border-soft:    rgba(224, 246, 255, .08);
-    --border-medium:  rgba(224, 246, 255, .14);
-    --border-strong:  rgba(224, 246, 255, .25);
+    --border-soft:    rgba(255, 255, 255, .08);
+    --border-medium:  rgba(255, 255, 255, .14);
+    --border-strong:  rgba(255, 255, 255, .22);
 
     --accent:         var(--chartreuse-pulse);
-    --accent-hover:   #dfff33;
-    --accent-fg:      var(--midnight-navy);
-    --accent-glow:    rgba(208, 241, 0, .5);
+    --accent-hover:   #FF5A2B;
+    --accent-fg:      #ffffff;
+    --accent-glow:    rgba(255, 51, 0, .5);
 
-    --action-blue:    #0050f8;
-    --status-pending:   #7c8293;
-    --status-transit:   #5fbdf7;
-    --status-port:      #d0f100;
-    --status-customs:   #b1b5c0;
-    --status-delivered: #00d989;
+    --action-blue:    #FF3300;
+    --status-pending:   #A3A3A3;
+    --status-transit:   #F59E0B;
+    --status-port:      #FF3300;
+    --status-customs:   #E85B03;
+    --status-delivered: #22C55E;
 
-    --header-bg: rgba(0, 16, 51, .82);
+    --header-bg: rgba(0, 0, 0, .82);
     --map-tile-style: 'dark';
   }
 
@@ -171,21 +172,32 @@
     transition: background-color .3s ease, color .3s ease;
   }
 
-  /* Atmospheric overlay — subtle blue radial for both themes */
+  /* Atmospheric overlay — subtle orange radials (Capybaras) */
   body::before{
     content: '';
     position: fixed; inset: 0;
     pointer-events: none; z-index: 0;
     background:
-      radial-gradient(ellipse 90% 60% at 50% 0%, rgba(0, 80, 248, .06), transparent 70%),
-      radial-gradient(circle at 12% 100%, rgba(95, 189, 247, .08), transparent 55%);
+      radial-gradient(ellipse 90% 60% at 50% 0%, rgba(255, 51, 0, .05), transparent 70%),
+      radial-gradient(circle at 12% 100%, rgba(232, 91, 3, .06), transparent 55%);
     transition: opacity .35s ease;
   }
   [data-theme="dark"] body::before{
     background:
-      radial-gradient(circle at 12% 22%, rgba(0, 80, 248, .14), transparent 55%),
-      radial-gradient(circle at 88% 78%, rgba(95, 189, 247, .08), transparent 55%);
+      radial-gradient(circle at 12% 22%, rgba(255, 51, 0, .12), transparent 55%),
+      radial-gradient(circle at 88% 78%, rgba(232, 91, 3, .08), transparent 55%);
   }
+
+  /* Grain texture — signature Capybaras overlay */
+  body::after{
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 2;
+    opacity: .045;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  [data-theme="dark"] body::after{ opacity: .06 }
 
   .app{
     position:relative; z-index:1;
@@ -204,7 +216,7 @@
   .brand{display:flex; align-items:center; gap:14px}
   .brand-mark{
     width:38px; height:38px;
-    border-radius: var(--r-cards-sm);
+    border-radius: 9999px;
     display:grid; place-items:center;
     box-shadow: var(--shadow-subtle);
   }
@@ -217,12 +229,11 @@
   .brand-text{display:flex; flex-direction:column; line-height:1; gap:4px}
   .brand-text .t1{
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 700;
     font-size: 22px;
     color: var(--text-primary);
-    letter-spacing: -0.22px;
+    letter-spacing: -0.4px;
     line-height: 1.1;
-    font-feature-settings: 'ss04', 'ss06';
   }
   .brand-text .t2{
     font-family: var(--font-ui);
@@ -306,8 +317,8 @@
     50%{ opacity:.5; transform:scale(.85)}
   }
   .save-indicator.dirty{
-    background: rgba(208, 241, 0, .12);
-    border-color: rgba(208, 241, 0, .4);
+    background: rgba(255, 51, 0, .12);
+    border-color: rgba(255, 51, 0, .4);
     color: var(--midnight-navy);
   }
   [data-theme="dark"] .save-indicator.dirty{ color: var(--accent) }
@@ -437,8 +448,8 @@
   }
   [data-theme="dark"] .auth-overlay{
     background:
-      radial-gradient(circle at 12% 22%, rgba(0, 80, 248, .18), transparent 55%),
-      radial-gradient(circle at 88% 78%, rgba(95, 189, 247, .12), transparent 55%),
+      radial-gradient(circle at 12% 22%, rgba(255, 51, 0, .16), transparent 55%),
+      radial-gradient(circle at 88% 78%, rgba(232, 91, 3, .12), transparent 55%),
       var(--deep-cosmos);
   }
   .auth-overlay.hidden{ display: none }
@@ -819,10 +830,10 @@
     border-bottom: 1px solid var(--border-soft);
   }
   table.containers tbody tr{ transition: background .15s }
-  table.containers tbody tr:hover{ background: rgba(0, 80, 248, .04) }
-  [data-theme="dark"] table.containers tbody tr:hover{ background: rgba(95, 189, 247, .06) }
-  table.containers tbody tr.active{ background: rgba(208, 241, 0, .14) }
-  [data-theme="dark"] table.containers tbody tr.active{ background: rgba(208, 241, 0, .10) }
+  table.containers tbody tr:hover{ background: rgba(255, 51, 0, .05) }
+  [data-theme="dark"] table.containers tbody tr:hover{ background: rgba(255, 51, 0, .07) }
+  table.containers tbody tr.active{ background: rgba(255, 51, 0, .14) }
+  [data-theme="dark"] table.containers tbody tr.active{ background: rgba(255, 51, 0, .10) }
   table.containers tbody tr.active td:first-child{
     border-left: 2px solid var(--accent);
   }
@@ -892,20 +903,20 @@
     color: var(--text-tertiary)!important;
   }
   .status-select[data-status="transito"]{
-    background-color: rgba(0, 80, 248, .12)!important;
-    border-color: rgba(0, 80, 248, .35)!important;
-    color: #0050f8!important;
+    background-color: rgba(245, 158, 11, .14)!important;
+    border-color: rgba(245, 158, 11, .40)!important;
+    color: #F59E0B!important;
   }
-  [data-theme="dark"] .status-select[data-status="transito"]{ color: #5fbdf7!important }
+  [data-theme="dark"] .status-select[data-status="transito"]{ color: #F59E0B!important }
   .status-select[data-status="puerto"]{
     background-color: var(--chartreuse-pulse)!important;
     border-color: var(--chartreuse-pulse)!important;
-    color: var(--midnight-navy)!important;
+    color: #ffffff!important;
   }
   .status-select[data-status="aduana"]{
-    background-color: rgba(124, 130, 147, .14)!important;
-    border-color: rgba(124, 130, 147, .35)!important;
-    color: var(--text-secondary)!important;
+    background-color: rgba(232, 91, 3, .14)!important;
+    border-color: rgba(232, 91, 3, .40)!important;
+    color: #E85B03!important;
   }
   .status-select[data-status="entregado"]{
     background-color: rgba(0, 168, 107, .12)!important;
@@ -1043,11 +1054,11 @@
   }
   [data-theme="dark"] .icon-btn.track:hover{ color: var(--midnight-navy) }
   .icon-btn.locate:hover{
-    color: #0050f8;
-    border-color: rgba(0, 80, 248, .35);
-    background: rgba(0, 80, 248, .08);
+    color: #FF3300;
+    border-color: rgba(255, 51, 0, .35);
+    background: rgba(255, 51, 0, .08);
   }
-  [data-theme="dark"] .icon-btn.locate:hover{ color: #5fbdf7 }
+  [data-theme="dark"] .icon-btn.locate:hover{ color: #FF5A2B }
   .icon-btn.delete:hover{
     color: #d83030;
     border-color: rgba(216, 48, 48, .3);
@@ -1189,9 +1200,9 @@
     transition: all .15s;
   }
   .map-toggle:hover{
-    background: rgba(208, 241, 0, .1);
+    background: rgba(255, 51, 0, .1);
     color: var(--accent);
-    border-color: rgba(208, 241, 0, .3);
+    border-color: rgba(255, 51, 0, .3);
   }
   .map-toggle svg{ width: 13px; height: 13px }
 
@@ -1217,7 +1228,7 @@
     transition: all .2s;
   }
   .show-map-floating:hover{
-    background: #dfff33;
+    background: #FF5A2B;
     transform: translateY(-2px);
     box-shadow: 0 16px 40px -8px var(--accent-glow), 0 0 0 1px rgba(255,255,255,.18) inset;
   }
@@ -1973,14 +1984,14 @@
   <header class="topbar">
     <div class="brand">
       <div class="brand-mark">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#f7f9fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 7h18v10H3z"/>
-          <path d="M7 7v10M11 7v10M15 7v10M19 7v10"/>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 17 17 7"/>
+          <path d="M9 7h8v8"/>
         </svg>
       </div>
       <div class="brand-text">
         <div class="t1">Container Tracker</div>
-        <div class="t2">Celestial Ocean Ops</div>
+        <div class="t2">Capybaras Agency</div>
       </div>
     </div>
 
@@ -2113,11 +2124,11 @@
       </div>
       <div id="map"></div>
       <div class="map-legend">
-        <div class="legend-row"><span class="legend-dot" style="background:#0050f8"></span> En tránsito</div>
-        <div class="legend-row"><span class="legend-dot" style="background:#d0f100"></span> En puerto</div>
-        <div class="legend-row"><span class="legend-dot" style="background:#d0f100"></span> En aduana</div>
-        <div class="legend-row"><span class="legend-dot" style="background:#f0f0f0"></span> Entregado</div>
-        <div class="legend-row"><span class="legend-dot" style="background:#6b6b6b"></span> Pendiente</div>
+        <div class="legend-row"><span class="legend-dot" style="background:#F59E0B"></span> En tránsito</div>
+        <div class="legend-row"><span class="legend-dot" style="background:#FF3300"></span> En puerto</div>
+        <div class="legend-row"><span class="legend-dot" style="background:#E85B03"></span> En aduana</div>
+        <div class="legend-row"><span class="legend-dot" style="background:#22C55E"></span> Entregado</div>
+        <div class="legend-row"><span class="legend-dot" style="background:#A3A3A3"></span> Pendiente</div>
       </div>
     </section>
   </main>
@@ -2238,42 +2249,6 @@
 <!-- AUTH + SETUP OVERLAY (full-screen, blocks app until logged in) -->
 <div class="auth-overlay" id="authOverlay">
   <div class="auth-card">
-    <!-- Setup screen — shown first run to capture the Supabase anon key -->
-    <div class="auth-screen" id="authSetupScreen" style="display:none">
-      <div class="auth-brand">
-        <div class="brand-mark" style="width:44px;height:44px;margin:0 auto 20px">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#f7f9fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 7h18v10H3z"/><path d="M7 7v10M11 7v10M15 7v10M19 7v10"/>
-          </svg>
-        </div>
-        <h1 class="auth-title">Configuración inicial</h1>
-        <p class="auth-subtitle">Una sola vez por navegador</p>
-      </div>
-      <div class="auth-steps">
-        <p class="auth-instructions">
-          Antes de empezar, necesito tu <b>publishable key</b> de Supabase para conectarme.
-          La buscás en:
-        </p>
-        <a href="https://supabase.com/dashboard/project/zsvezilcpqhnakhbdtym/settings/api-keys" target="_blank" rel="noopener" class="auth-step-link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          <span>Abrir Supabase Settings → API keys</span>
-        </a>
-        <p class="auth-hint">
-          Copiá la <b>"anon" / "publishable"</b> key (NO la "service_role" que dice secret). Es una string larga que empieza con <code>eyJ</code>.
-        </p>
-      </div>
-      <form id="setupForm" onsubmit="return false">
-        <div class="auth-field">
-          <label for="setupKeyInput">Anon / Publishable key</label>
-          <input id="setupKeyInput" type="password" placeholder="eyJhbGci..." autocomplete="off" />
-        </div>
-        <div class="auth-status" id="setupStatus"></div>
-        <button class="btn primary auth-submit" id="setupSubmitBtn" type="button" onclick="completeSetup()">
-          Guardar y continuar
-        </button>
-      </form>
-    </div>
-
     <!-- Login screen -->
     <div class="auth-screen" id="authLoginScreen" style="display:none">
       <div class="auth-brand">
@@ -2304,9 +2279,6 @@
           <span id="authSubmitText">Iniciar sesión</span>
         </button>
       </form>
-      <div class="auth-footer">
-        <button class="auth-link" onclick="resetSetup()">¿Cambiar configuración?</button>
-      </div>
     </div>
 
     <!-- Loading screen -->
@@ -2394,11 +2366,11 @@
 const STORAGE_KEY = 'container_tracker_v1';
 
 const STATUS_COLORS = {
-  pendiente: '#6b6b6b',
-  transito:  '#0050f8',
-  puerto:    '#d0f100',
-  aduana:    '#d0f100',
-  entregado: '#f0f0f0'
+  pendiente: '#A3A3A3',
+  transito:  '#F59E0B',
+  puerto:    '#FF3300',
+  aduana:    '#E85B03',
+  entregado: '#22C55E'
 };
 const STATUS_LABELS = {
   pendiente: 'Pendiente',
@@ -2499,9 +2471,8 @@ function swapMapTiles(theme){
 }
 
 /* ---------- Persistence ---------- */
-const SUPABASE_URL = 'https://zsvezilcpqhnakhbdtym.supabase.co';
-const SUPABASE_KEY_STORAGE = 'container_tracker_supabase_key_v1';
-let SUPABASE_KEY = '';
+const SUPABASE_URL = 'https://tbeevwknhhxyxeurfsdh.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_mUc0Z1C2cELCnoiI_gcC4w_cKHZiMMp';
 let sb = null;
 let session = null;
 let currentUser = null;
@@ -2557,13 +2528,7 @@ function updateSaveIndicator(){
 
 /* ---------- Supabase: Setup & Auth ---------- */
 
-function loadSupabaseKey(){
-  SUPABASE_KEY = localStorage.getItem(SUPABASE_KEY_STORAGE) || '';
-  return SUPABASE_KEY;
-}
-
 function initSupabaseClient(){
-  if(!SUPABASE_KEY) return false;
   if(!window.supabase || !window.supabase.createClient){
     console.error('Supabase SDK not loaded');
     return false;
@@ -2599,18 +2564,8 @@ function setAuthStatus(msg, type){
   if(type) el.classList.add(type);
   el.textContent = msg;
 }
-function setSetupStatus(msg, type){
-  const el = document.getElementById('setupStatus');
-  if(!el) return;
-  el.classList.remove('ok','err','loading','show');
-  if(!msg){ el.style.display = 'none'; return; }
-  el.classList.add('show');
-  if(type) el.classList.add(type);
-  el.textContent = msg;
-}
 
 function showAuthScreen(screen){
-  document.getElementById('authSetupScreen').style.display   = (screen === 'setup')   ? 'flex' : 'none';
   document.getElementById('authLoginScreen').style.display   = (screen === 'login')   ? 'flex' : 'none';
   document.getElementById('authLoadingScreen').style.display = (screen === 'loading') ? 'flex' : 'none';
 }
@@ -2628,47 +2583,6 @@ function switchAuthMode(mode){
   document.getElementById('authPasswordHint').style.display = mode === 'signup' ? 'block' : 'none';
   document.getElementById('authPassword').setAttribute('autocomplete', mode === 'login' ? 'current-password' : 'new-password');
   setAuthStatus('', '');
-}
-
-async function completeSetup(){
-  const key = (document.getElementById('setupKeyInput').value || '').trim();
-  if(!key){ setSetupStatus('Pegá la anon key primero', 'err'); return; }
-  if(!key.startsWith('eyJ')){
-    setSetupStatus('La key debe empezar con "eyJ" (es un JWT). ¿Pegaste la correcta? La "anon" / "publishable" — no la "service_role".', 'err');
-    return;
-  }
-
-  setSetupStatus('Verificando key...', 'loading');
-  document.getElementById('setupSubmitBtn').disabled = true;
-
-  // Test the key by trying to create a client and ping a public endpoint
-  try{
-    const testClient = window.supabase.createClient(SUPABASE_URL, key);
-    // Try a simple unauthenticated request — list session (should not error even without auth)
-    const { error } = await testClient.auth.getSession();
-    if(error) throw error;
-
-    // Save the key and proceed
-    SUPABASE_KEY = key;
-    localStorage.setItem(SUPABASE_KEY_STORAGE, key);
-    initSupabaseClient();
-    setSetupStatus('Key válida. Continuando...', 'ok');
-    setTimeout(() => {
-      switchAuthMode('login');
-      showAuthScreen('login');
-    }, 700);
-  }catch(err){
-    setSetupStatus('Key inválida: ' + (err.message || err), 'err');
-    document.getElementById('setupSubmitBtn').disabled = false;
-  }
-}
-
-function resetSetup(){
-  if(!confirm('¿Cambiar la configuración? Vas a tener que volver a pegar la anon key.')) return;
-  localStorage.removeItem(SUPABASE_KEY_STORAGE);
-  SUPABASE_KEY = '';
-  sb = null;
-  showAuthScreen('setup');
 }
 
 async function handleAuthSubmit(){
@@ -4290,7 +4204,7 @@ function showMapError(msg){
     <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
                 gap:14px;padding:40px;text-align:center;color:var(--text-tertiary);font-family:var(--font-mono);
                 font-size:11px;letter-spacing:.12em;text-transform:uppercase">
-      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#d0f100" stroke-width="1.5"
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#FF3300" stroke-width="1.5"
            stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="10"/>
         <line x1="12" y1="8" x2="12" y2="12"/>
@@ -4356,19 +4270,9 @@ async function boot(){
     // Wait for the Supabase SDK to load (CDN)
     await waitForSupabaseSDK();
 
-    // Initialize Supabase
-    loadSupabaseKey();
-    if(!SUPABASE_KEY){
-      document.querySelector('.app').classList.add('locked');
-      showAuthScreen('setup');
-      return;
-    }
-
+    // Initialize Supabase (URL + key hardcoded — no setup needed)
     if(!initSupabaseClient()){
-      document.querySelector('.app').classList.add('locked');
-      showAuthScreen('setup');
-      setSetupStatus('No se pudo inicializar el cliente. Verificá tu anon key.', 'err');
-      return;
+      throw new Error('No se pudo inicializar el cliente de Supabase. Refrescá la página o avisá al admin.');
     }
 
     // Check for existing session

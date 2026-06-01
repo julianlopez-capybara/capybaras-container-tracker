@@ -945,6 +945,10 @@
   }
   [data-theme="dark"] table.containers td input:focus,
   [data-theme="dark"] table.containers td select:focus{ border-color: var(--accent) }
+  /* Ícono del date picker en blanco sobre tema oscuro */
+  [data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator{
+    filter: invert(1) brightness(1.8);
+  }
   table.containers td.col-container input{
     font-family: var(--font-mono);
     font-weight: 500;
@@ -1021,32 +1025,39 @@
     font-weight: 480;
   }
 
-  /* FBA/AWD toggle */
-  .fba-toggle{
-    appearance:none; border:none;
-    cursor:pointer;
-    font-family: var(--font-ui);
-    font-weight: 480; font-size: 12px;
+  /* Tipo (carga) + Almacenamiento (canal) — pills tipo Estado */
+  .tipo-select, .alm-select{
+    appearance: none;
+    background-color: var(--bg-elevated) !important;
+    border: 1px solid var(--border-medium) !important;
+    color: var(--text-primary) !important;
+    font-family: var(--font-ui) !important;
+    font-size: 12px !important;
+    font-weight: 480 !important;
     letter-spacing: -0.13px;
-    padding: 5px 14px;
-    border-radius: var(--r-buttons);
-    transition: all .15s ease;
-    min-width: 60px;
-    text-align: center;
+    padding: 5px 24px 5px 12px !important;
+    border-radius: var(--r-buttons) !important;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%237c8293' stroke-width='2'><path d='m6 9 6 6 6-6'/></svg>") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 8px center !important;
+    background-size: 11px !important;
+    cursor: pointer;
   }
-  .fba-toggle.fba{
-    background: var(--chartreuse-pulse);
-    color: var(--midnight-navy);
-    box-shadow: var(--shadow-cta);
-  }
-  .fba-toggle.awd{
-    background: var(--bg-elevated);
-    color: var(--text-primary);
-    border: 1px solid var(--border-medium);
-    box-sizing: border-box;
-  }
-  .fba-toggle:hover{ transform: translateY(-1px) }
-  .fba-toggle:active{ transform: translateY(0) }
+  /* Tipo */
+  .tipo-select[data-tipo="lcl"]{ background-color: rgba(138,138,138,.12)!important; border-color: rgba(138,138,138,.40)!important; color: #8a8a8a!important }
+  .tipo-select[data-tipo="fcl20"]{ background-color: rgba(245,158,11,.14)!important; border-color: rgba(245,158,11,.40)!important; color: #F59E0B!important }
+  .tipo-select[data-tipo="fcl40"]{ background-color: rgba(255,51,0,.14)!important; border-color: rgba(255,51,0,.40)!important; color: #FF3300!important }
+  .tipo-select[data-tipo="fcl40hq"]{ background-color: rgba(232,91,3,.14)!important; border-color: rgba(232,91,3,.40)!important; color: #E85B03!important }
+  /* Almacenamiento */
+  .alm-select[data-alm="fba"]{ background-color: rgba(255,51,0,.14)!important; border-color: rgba(255,51,0,.40)!important; color: #FF3300!important }
+  .alm-select[data-alm="awd"]{ background-color: rgba(232,91,3,.14)!important; border-color: rgba(232,91,3,.40)!important; color: #E85B03!important }
+  .alm-select[data-alm="fbm3pl"]{ background-color: rgba(245,158,11,.14)!important; border-color: rgba(245,158,11,.40)!important; color: #F59E0B!important }
+  .alm-select[data-alm="wfs"]{ background-color: rgba(34,197,94,.14)!important; border-color: rgba(34,197,94,.40)!important; color: #1f9d57!important }
+  [data-theme="dark"] .alm-select[data-alm="wfs"]{ color: #22C55E!important }
+  .alm-select[data-alm="tiktok"]{ background-color: rgba(60,60,60,.14)!important; border-color: rgba(60,60,60,.45)!important; color: #4d4d4d!important }
+  [data-theme="dark"] .alm-select[data-alm="tiktok"]{ color: #bdbdbd!important }
+  .alm-select[data-alm="sfwm3pl"]{ background-color: rgba(100,116,139,.14)!important; border-color: rgba(100,116,139,.45)!important; color: #64748B!important }
+  [data-theme="dark"] .alm-select[data-alm="sfwm3pl"]{ color: #94a3b8!important }
 
   /* Link cell — chameleon: input when empty, button when filled */
   .col-link{ min-width: 140px }
@@ -2179,6 +2190,7 @@
               <th>Link</th>
               <th>E-commerce</th>
               <th>Tipo</th>
+              <th>Almacenamiento</th>
               <th>SKU</th>
               <th>ASIN</th>
               <th>Cajas</th>
@@ -2287,8 +2299,23 @@
           <div class="field">
             <label for="f-tipo">Tipo</label>
             <select id="f-tipo">
-              <option value="FBA">FBA</option>
-              <option value="AWD">AWD</option>
+              <option value="">—</option>
+              <option value="lcl">LCL</option>
+              <option value="fcl20">FCL 20"</option>
+              <option value="fcl40">FCL 40"</option>
+              <option value="fcl40hq">FCL 40 HQ</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-almacenamiento">Almacenamiento</label>
+            <select id="f-almacenamiento">
+              <option value="">—</option>
+              <option value="fba">FBA</option>
+              <option value="awd">AWD</option>
+              <option value="fbm3pl">FBM-3PL</option>
+              <option value="tiktok">TIK TOK SHOP</option>
+              <option value="wfs">WFS</option>
+              <option value="sfwm3pl">SF-WM-3PL</option>
             </select>
           </div>
           <div class="field">
@@ -2524,6 +2551,20 @@ const STATUS_LABELS = {
   puerto:    'En puerto',
   aduana:    'En aduana',
   entregado: 'Entregado'
+};
+const TIPO_LABELS = {
+  lcl:     'LCL',
+  fcl20:   'FCL 20"',
+  fcl40:   'FCL 40"',
+  fcl40hq: 'FCL 40 HQ'
+};
+const ALM_LABELS = {
+  fba:     'FBA',
+  awd:     'AWD',
+  fbm3pl:  'FBM-3PL',
+  tiktok:  'TIK TOK SHOP',
+  wfs:     'WFS',
+  sfwm3pl: 'SF-WM-3PL'
 };
 
 let state = { containers: [], editingId: null };
@@ -2854,7 +2895,8 @@ function containerToRow(c){
     shipment:   c.shipment   || null,
     link:       c.link       || null,
     ecommerce:  c.ecommerce  || null,
-    tipo:       c.tipo       || 'FBA',
+    tipo:       c.tipo       || null,
+    almacenamiento: c.almacenamiento || null,
     sku:        c.sku        || null,
     asin:       c.asin       || null,
     cajas:      c.cajas      !== '' && c.cajas      != null ? parseInt(c.cajas)    : null,
@@ -2879,7 +2921,8 @@ function rowToContainer(r){
     shipment:   r.shipment   || '',
     link:       r.link       || '',
     ecommerce:  r.ecommerce  || '',
-    tipo:       r.tipo       || 'FBA',
+    tipo:       r.tipo       || '',
+    almacenamiento: r.almacenamiento || '',
     sku:        r.sku        || '',
     asin:       r.asin       || '',
     cajas:      r.cajas      != null ? String(r.cajas)    : '',
@@ -3070,7 +3113,8 @@ const COLUMNS_DEF = [
   { key: 'shipment',      width: 200 },
   { key: 'link',          width: 150 },
   { key: 'ecommerce',     width: 120 },
-  { key: 'tipo',          width: 84  },
+  { key: 'tipo',          width: 110 },
+  { key: 'almacenamiento',width: 150 },
   { key: 'sku',           width: 120 },
   { key: 'asin',          width: 130 },
   { key: 'cajas',         width: 84  },
@@ -3194,7 +3238,8 @@ function popupHtml(c){
     <div class="popup-meta">
       ${c.cuenta ? `<div class="popup-row"><span>Cuenta</span><b>${escapeHtml(c.cuenta)}</b></div>` : ''}
       ${c.shipment ? `<div class="popup-row"><span>ID Envío</span><b>${escapeHtml(c.shipment)}</b></div>` : ''}
-      ${c.tipo ? `<div class="popup-row"><span>Tipo</span><b>${escapeHtml(c.tipo)}</b></div>` : ''}
+      ${c.tipo ? `<div class="popup-row"><span>Tipo</span><b>${escapeHtml(TIPO_LABELS[c.tipo] || c.tipo)}</b></div>` : ''}
+      ${c.almacenamiento ? `<div class="popup-row"><span>Almacenamiento</span><b>${escapeHtml(ALM_LABELS[c.almacenamiento] || c.almacenamiento)}</b></div>` : ''}
       <div class="popup-row"><span>Estado</span><b style="color:${STATUS_COLORS[c.estado]}">${STATUS_LABELS[c.estado] || '-'}</b></div>
       ${c.ubicacion ? `<div class="popup-row"><span>Ubicación</span><b>${escapeHtml(c.ubicacion)}</b></div>` : ''}
       ${c.eta ? `<div class="popup-row"><span>ETA Puerto Destino</span><b>${escapeHtml(c.eta)}</b></div>` : ''}
@@ -3271,6 +3316,22 @@ function statusSelectHtml(id, value){
   ).join('');
   return `<select class="status-select" data-status="${value}" data-id="${id}" data-field="estado">${opts}</select>`;
 }
+function tipoSelectHtml(id, value){
+  const v = value || '';
+  const opts = `<option value="" ${v===''?'selected':''}>—</option>` +
+    Object.entries(TIPO_LABELS).map(([k,label]) =>
+      `<option value="${k}" ${k===v?'selected':''}>${label}</option>`
+    ).join('');
+  return `<select class="tipo-select" data-tipo="${v}" data-id="${id}" data-field="tipo">${opts}</select>`;
+}
+function almSelectHtml(id, value){
+  const v = value || '';
+  const opts = `<option value="" ${v===''?'selected':''}>—</option>` +
+    Object.entries(ALM_LABELS).map(([k,label]) =>
+      `<option value="${k}" ${k===v?'selected':''}>${label}</option>`
+    ).join('');
+  return `<select class="alm-select" data-alm="${v}" data-id="${id}" data-field="almacenamiento">${opts}</select>`;
+}
 function renderTable(){
   const tbody = document.getElementById('tableBody');
   const empty = document.getElementById('emptyState');
@@ -3321,7 +3382,8 @@ function renderTable(){
         <td class="col-shipment"><input data-id="${c.id}" data-field="shipment" value="${escapeHtml(c.shipment)}" placeholder="—" /></td>
         <td class="col-link">${linkCell}</td>
         <td><input data-id="${c.id}" data-field="ecommerce" value="${escapeHtml(c.ecommerce)}" placeholder="—" /></td>
-        <td><button class="fba-toggle ${c.tipo==='AWD'?'awd':'fba'}" data-id="${c.id}" data-action="toggle-tipo">${escapeHtml(c.tipo||'FBA')}</button></td>
+        <td>${tipoSelectHtml(c.id, c.tipo)}</td>
+        <td>${almSelectHtml(c.id, c.almacenamiento)}</td>
         <td><input data-id="${c.id}" data-field="sku" value="${escapeHtml(c.sku)}" placeholder="—" /></td>
         <td class="col-asin">${c.asin
           ? `<button class="asin-link" data-id="${c.id}" data-asin="${escapeHtml(c.asin)}" data-action="asin-click" data-hover="asin">
@@ -3360,8 +3422,8 @@ function updateStats(){
   const total = state.containers.length;
   const totalBoxes = state.containers.reduce((s,c)=> s + (parseInt(c.cajas)||0), 0);
   const totalUnits = state.containers.reduce((s,c)=> s + (parseInt(c.unidades)||0), 0);
-  const fba = state.containers.filter(c => (c.tipo||'FBA') === 'FBA').length;
-  const awd = state.containers.filter(c => c.tipo === 'AWD').length;
+  const fba = state.containers.filter(c => c.almacenamiento === 'fba').length;
+  const awd = state.containers.filter(c => c.almacenamiento === 'awd').length;
 
   document.getElementById('statContainers').textContent = total;
   document.getElementById('statBoxes').textContent = totalBoxes.toLocaleString('es-AR');
@@ -3383,7 +3445,8 @@ function addContainer(payload){
     shipment: payload.shipment || '',
     link: payload.link || '',
     ecommerce: payload.ecommerce || '',
-    tipo: payload.tipo || 'FBA',
+    tipo: payload.tipo || '',
+    almacenamiento: payload.almacenamiento || '',
     sku: payload.sku || '',
     asin: (payload.asin || '').toUpperCase(),
     cajas: payload.cajas || '',
@@ -3451,12 +3514,7 @@ function deleteContainer(id){
   toast('Container eliminado', 'success');
 }
 function toggleTipo(id){
-  const c = state.containers.find(x => x.id === id);
-  if(!c) return;
-  c.tipo = (c.tipo === 'AWD') ? 'FBA' : 'AWD';
-  renderTable();
-  markDirty();
-  schedulePush(id);
+  /* obsoleto: Tipo ahora es un <select>; se maneja por updateContainerField */
 }
 
 const SEARATES_URL = 'https://www.searates.com/es/container/tracking/?shipment-type=sea';
@@ -3563,7 +3621,8 @@ function renderSrHero(){
   const meta = [
     c && c.cuenta    ? { label: 'Cuenta',    value: c.cuenta }                : null,
     c && c.shipment  ? { label: 'ID Envío',  value: c.shipment, mono: true }  : null,
-    c && c.tipo      ? { label: 'Tipo',      value: c.tipo, mono: true }      : null,
+    c && c.tipo      ? { label: 'Tipo',      value: TIPO_LABELS[c.tipo] || c.tipo, mono: true } : null,
+    c && c.almacenamiento ? { label: 'Almacenamiento', value: ALM_LABELS[c.almacenamiento] || c.almacenamiento, mono: true } : null,
     c && c.ecommerce ? { label: 'E-commerce',value: c.ecommerce }             : null,
     c && c.ubicacion ? { label: 'Ubicación', value: c.ubicacion }             : null,
     c && c.eta       ? { label: 'ETA',       value: c.eta, mono: true }       : null,
@@ -3965,6 +4024,7 @@ function submitModal(){
     link: v('f-link'),
     ecommerce: v('f-ecommerce'),
     tipo: v('f-tipo'),
+    almacenamiento: v('f-almacenamiento'),
     sku: v('f-sku'),
     asin: v('f-asin'),
     cajas: v('f-cajas'),
@@ -4420,7 +4480,8 @@ async function sendTeamNotification(c, reason){
     reason,
     container: {
       container: c.container || '', cuenta: c.cuenta || '', shipment: c.shipment || '',
-      link: c.link || '', ecommerce: c.ecommerce || '', tipo: c.tipo || '',
+      link: c.link || '', ecommerce: c.ecommerce || '', tipo: TIPO_LABELS[c.tipo] || c.tipo || '',
+      almacenamiento: ALM_LABELS[c.almacenamiento] || c.almacenamiento || '',
       sku: c.sku || '', asin: c.asin || '',
       cajas: c.cajas || '', unidades: c.unidades || '',
       estado: STATUS_LABELS[c.estado] || c.estado || '',
@@ -4526,6 +4587,10 @@ function setupEvents(){
       updateContainerField(t.dataset.id, t.dataset.field, t.value);
       if(t.dataset.field === 'estado'){
         t.setAttribute('data-status', t.value);
+      } else if(t.dataset.field === 'tipo'){
+        t.setAttribute('data-tipo', t.value);
+      } else if(t.dataset.field === 'almacenamiento'){
+        t.setAttribute('data-alm', t.value);
       }
     }
   });
@@ -4537,7 +4602,6 @@ function setupEvents(){
     if(action === 'delete') deleteContainer(id);
     else if(action === 'track') trackInTrackTrace(id);
     else if(action === 'locate') focusContainer(id);
-    else if(action === 'toggle-tipo') toggleTipo(id);
     else if(action === 'asin-click'){
       const asin = btn.dataset.asin;
       if(asin) window.open(buildAmazonUrl(asin), '_blank', 'noopener');

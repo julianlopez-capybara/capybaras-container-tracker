@@ -212,6 +212,8 @@
     background: var(--bg-elevated);
     backdrop-filter: blur(24px) saturate(1.4);
     -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    position: relative;
+    z-index: 1100;
   }
   .brand{display:flex; align-items:center; gap:14px}
   .brand-mark{
@@ -377,8 +379,9 @@
     border-radius: var(--r-cards-md);
     padding: 6px;
     min-width: 240px;
-    z-index: 1000;
+    z-index: 2100;
     box-shadow: var(--shadow-xl);
+    isolation: isolate;
   }
   .user-dropdown-info{
     padding: 12px 14px;
@@ -418,10 +421,14 @@
     transition: all .15s;
   }
   .user-dropdown-action:hover{
+    background: var(--bg-hover, rgba(255,255,255,0.06));
+    color: var(--text-primary);
+  }
+  .user-dropdown-action.danger:hover{
     background: rgba(255, 99, 99, .08);
     color: #d83030;
   }
-  [data-theme="dark"] .user-dropdown-action:hover{ color: #ff8888 }
+  [data-theme="dark"] .user-dropdown-action.danger:hover{ color: #ff8888 }
   .user-dropdown-action svg{ width: 14px; height: 14px }
 
   /* Sync status dot (subtle indicator) */
@@ -2390,7 +2397,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
           Integraciones
         </button>
-        <button class="user-dropdown-action" onclick="handleSignOut()">
+        <button class="user-dropdown-action danger" onclick="handleSignOut()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           Cerrar sesión
         </button>

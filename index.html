@@ -2144,10 +2144,10 @@
     gap: 14px;
   }
   .integration-card{
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-medium);
     border-radius: 14px;
     padding: 16px;
-    background: var(--bg-elev);
+    background: var(--bg-elevated);
   }
   .integration-row{
     display: flex;
@@ -2169,7 +2169,7 @@
     justify-content: center;
     border-radius: 8px;
     background: var(--bg);
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-medium);
     font-size: 16px;
   }
   .integration-pill{
@@ -2177,7 +2177,7 @@
     font-size: 11px;
     padding: 4px 10px;
     border-radius: 9999px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-medium);
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
@@ -2187,11 +2187,11 @@
     background: rgba(20,200,120,0.08);
   }
   .integration-pill.off{
-    color: var(--muted);
+    color: var(--text-tertiary);
   }
   .integration-email{
     font-size: 12px;
-    color: var(--muted);
+    color: var(--text-tertiary);
     margin-top: 6px;
     font-family: 'Space Mono', monospace;
     word-break: break-all;
@@ -2199,11 +2199,11 @@
   .integration-config{
     margin-top: 12px;
     padding-top: 12px;
-    border-top: 1px dashed var(--border);
+    border-top: 1px dashed var(--border-medium);
     font-size: 12.5px;
   }
   .integration-config .lbl{
-    color: var(--muted);
+    color: var(--text-tertiary);
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -2211,11 +2211,11 @@
   }
   .integration-config .val{
     font-family: 'Space Mono', monospace;
-    color: var(--text);
+    color: var(--text-primary);
     margin-bottom: 10px;
   }
   .integration-config .val em{
-    color: var(--muted);
+    color: var(--text-tertiary);
     font-style: italic;
     font-family: inherit;
   }
@@ -2227,9 +2227,9 @@
   }
   .integration-help{
     font-size: 12px;
-    color: var(--muted);
+    color: var(--text-tertiary);
     background: var(--bg);
-    border: 1px dashed var(--border);
+    border: 1px dashed var(--border-medium);
     border-radius: 10px;
     padding: 10px 12px;
     margin-top: 6px;
@@ -2237,7 +2237,7 @@
   .integration-help code{
     font-family: 'Space Mono', monospace;
     font-size: 11px;
-    background: var(--bg-elev);
+    background: var(--bg-elevated);
     padding: 1px 5px;
     border-radius: 4px;
   }
@@ -2251,7 +2251,7 @@
   }
   .asana-picker label{
     font-size: 11px;
-    color: var(--muted);
+    color: var(--text-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -2259,9 +2259,9 @@
     width: 100%;
     padding: 9px 11px;
     border-radius: 8px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-medium);
     background: var(--bg);
-    color: var(--text);
+    color: var(--text-primary);
     font-family: inherit;
     font-size: 13px;
   }
@@ -2270,14 +2270,22 @@
   /* --- Menú de sync por fila --- */
   .sync-menu{
     position: fixed;
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 6px;
-    min-width: 240px;
-    box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    padding: 8px;
+    min-width: 260px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.04);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
     z-index: 9999;
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-ui);
+  }
+  [data-theme="dark"] .sync-menu{
+    background: #131313;
+  }
+  [data-theme="light"] .sync-menu{
+    background: #ffffff;
   }
   .sync-menu-head{
     font-size: 10px;
@@ -2295,7 +2303,7 @@
     text-align: left;
     background: transparent;
     border: 0;
-    color: var(--text);
+    color: var(--text-primary);
     padding: 9px 10px;
     border-radius: 8px;
     cursor: pointer;
@@ -2315,7 +2323,7 @@
   .sync-menu button.danger:hover:not(:disabled){ background: rgba(216,48,48,0.1) }
   .sync-menu hr{
     border: 0;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--border-medium);
     margin: 4px 0;
   }
   .sync-menu .sm-state{
@@ -2326,8 +2334,13 @@
     text-transform: uppercase;
   }
 
-  /* Botón ↗ en row-actions, mismo skin que el resto */
-  .icon-btn.sync{ color: var(--accent) }
+  /* Botón ↗ en row-actions: gris como los otros, naranja en hover */
+  .icon-btn.sync:hover{
+    color: var(--accent);
+    border-color: rgba(255, 51, 0, .35);
+    background: rgba(255, 51, 0, .08);
+  }
+  [data-theme="dark"] .icon-btn.sync:hover{ color: #FF5A2B }
 
   /* Botón toggle de density en la toolbar */
   .density-toggle{
@@ -2336,9 +2349,9 @@
     justify-content: center;
     width: 36px; height: 36px;
     border-radius: 9999px;
-    border: 1px solid var(--border);
-    background: var(--bg-elev);
-    color: var(--text);
+    border: 1px solid var(--border-medium);
+    background: var(--bg-elevated);
+    color: var(--text-primary);
     cursor: pointer;
     transition: all .15s;
   }

@@ -2070,6 +2070,276 @@
     .field.full{ grid-column: span 1 }
     header.topbar{ padding: 12px 16px; gap: 14px }
   }
+
+  /* ============================================================ */
+  /* FASE 15: Ordenamiento, resize vertical, integraciones, sync   */
+  /* ============================================================ */
+
+  /* --- Sort de columnas --- */
+  thead th.sortable{
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+  }
+  thead th.sortable:hover{
+    background: rgba(255, 51, 0, 0.08);
+  }
+  thead th.sortable .sort-ind{
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 10px;
+    opacity: 0.35;
+    font-family: 'Space Mono', monospace;
+    vertical-align: middle;
+    transition: opacity .12s, color .12s;
+  }
+  thead th.is-sorted{ background: rgba(255, 51, 0, 0.06) }
+  thead th.is-sorted .sort-ind{ opacity: 1; color: var(--accent) }
+
+  /* --- Resize vertical de filas --- */
+  body[data-row-mode="compact"] tbody td > input,
+  body[data-row-mode="compact"] tbody td{
+    /* default actual: una sola línea con elipsis */
+  }
+  body[data-row-mode="expanded"] tbody td{
+    white-space: normal;
+    word-break: break-word;
+    vertical-align: top;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  body[data-row-mode="expanded"] tbody td input[type="text"],
+  body[data-row-mode="expanded"] tbody td input:not([type="date"]):not([type="number"]):not([type="checkbox"]):not([type="url"]),
+  body[data-row-mode="expanded"] tbody td input[type="url"]{
+    white-space: normal;
+    text-overflow: clip;
+    overflow: visible;
+  }
+  body[data-row-mode="expanded"] tbody tr{
+    position: relative;
+  }
+  .row-resize-handle{
+    position: absolute;
+    left: 0; right: 0; bottom: -2px;
+    height: 5px;
+    cursor: ns-resize;
+    background: transparent;
+    z-index: 6;
+  }
+  .row-resize-handle:hover{ background: rgba(255, 51, 0, 0.35) }
+  .row-resize-handle:active{ background: rgba(255, 51, 0, 0.6) }
+  body[data-row-mode="compact"] .row-resize-handle{ display: none }
+
+  /* --- Modal de integraciones --- */
+  .integration-list{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .integration-card{
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    background: var(--bg-elev);
+  }
+  .integration-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .integration-name{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .integration-name .ico{
+    width: 28px; height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    font-size: 16px;
+  }
+  .integration-pill{
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .integration-pill.on{
+    color: var(--status-delivered);
+    border-color: rgba(20,200,120,0.4);
+    background: rgba(20,200,120,0.08);
+  }
+  .integration-pill.off{
+    color: var(--muted);
+  }
+  .integration-email{
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-family: 'Space Mono', monospace;
+    word-break: break-all;
+  }
+  .integration-config{
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+    font-size: 12.5px;
+  }
+  .integration-config .lbl{
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .integration-config .val{
+    font-family: 'Space Mono', monospace;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .integration-config .val em{
+    color: var(--muted);
+    font-style: italic;
+    font-family: inherit;
+  }
+  .integration-actions{
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .integration-help{
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--bg);
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-top: 6px;
+  }
+  .integration-help code{
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    background: var(--bg-elev);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  /* Picker de Asana (select dentro del modal) */
+  .asana-picker{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .asana-picker label{
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .asana-picker select{
+    width: 100%;
+    padding: 9px 11px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13px;
+  }
+  .asana-picker select:disabled{ opacity: 0.5 }
+
+  /* --- Menú de sync por fila --- */
+  .sync-menu{
+    position: fixed;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 6px;
+    min-width: 240px;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+    z-index: 9999;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .sync-menu-head{
+    font-size: 10px;
+    opacity: 0.55;
+    padding: 6px 10px 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+  .sync-menu button{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    color: var(--text);
+    padding: 9px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .sync-menu button:hover:not(:disabled){
+    background: rgba(255, 51, 0, 0.12);
+    color: var(--accent);
+  }
+  .sync-menu button:disabled{
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  .sync-menu button.danger{ color: #d83030 }
+  .sync-menu button.danger:hover:not(:disabled){ background: rgba(216,48,48,0.1) }
+  .sync-menu hr{
+    border: 0;
+    border-top: 1px solid var(--border);
+    margin: 4px 0;
+  }
+  .sync-menu .sm-state{
+    margin-left: auto;
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    opacity: 0.6;
+    text-transform: uppercase;
+  }
+
+  /* Botón ↗ en row-actions, mismo skin que el resto */
+  .icon-btn.sync{ color: var(--accent) }
+
+  /* Botón toggle de density en la toolbar */
+  .density-toggle{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: 9999px;
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+    color: var(--text);
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .density-toggle:hover{
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .density-toggle svg{ width: 16px; height: 16px }
 </style>
 </head>
 <body>
@@ -2116,6 +2386,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           Mi equipo
         </button>
+        <button class="user-dropdown-action" onclick="openIntegrationsModal()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          Integraciones
+        </button>
         <button class="user-dropdown-action" onclick="handleSignOut()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
           Cerrar sesión
@@ -2142,6 +2416,10 @@
 
     <div class="spacer"></div>
 
+    <button class="density-toggle" id="btnRowMode" title="Cambiar densidad de filas">
+      <svg id="rowModeIconCompact" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="3" y1="14" x2="21" y2="14"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="rowModeIconExpanded" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
     <input type="text" class="search-input" id="searchInput" placeholder="Buscar container, SKU, cuenta..." />
     <button class="btn danger" id="btnClear">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
@@ -2183,22 +2461,22 @@
           <thead>
             <tr>
               <th class="col-check"><input type="checkbox" class="check-all" id="checkAll" title="Seleccionar todo" /></th>
-              <th>#</th>
-              <th>Container</th>
-              <th>Cuenta</th>
-              <th>ID Envío</th>
+              <th class="sortable" data-sort-key="__index">#</th>
+              <th class="sortable" data-sort-key="container">Container</th>
+              <th class="sortable" data-sort-key="cuenta">Cuenta</th>
+              <th class="sortable" data-sort-key="shipment">ID Envío</th>
               <th>Link</th>
-              <th>E-commerce</th>
-              <th>Tipo</th>
-              <th>Almacenamiento</th>
-              <th>SKU</th>
-              <th>ASIN</th>
-              <th>Cajas</th>
-              <th>Unidades</th>
-              <th>Estado</th>
-              <th>Ubicación</th>
-              <th>ETA Puerto Destino</th>
-              <th>ETA Amz Warehouse</th>
+              <th class="sortable" data-sort-key="ecommerce">E-commerce</th>
+              <th class="sortable" data-sort-key="tipo">Tipo</th>
+              <th class="sortable" data-sort-key="almacenamiento">Almacenamiento</th>
+              <th class="sortable" data-sort-key="sku">SKU</th>
+              <th class="sortable" data-sort-key="asin">ASIN</th>
+              <th class="sortable" data-sort-key="cajas">Cajas</th>
+              <th class="sortable" data-sort-key="unidades">Unidades</th>
+              <th class="sortable" data-sort-key="estado">Estado</th>
+              <th class="sortable" data-sort-key="ubicacion">Ubicación</th>
+              <th class="sortable" data-sort-key="eta">ETA Puerto Destino</th>
+              <th class="sortable" data-sort-key="eta_warehouse">ETA Amz Warehouse</th>
               <th style="text-align:right">Acciones</th>
             </tr>
           </thead>
@@ -2368,6 +2646,21 @@
 </div>
 
 <div class="toast-stack" id="toastStack"></div>
+
+<!-- MODAL: INTEGRATIONS (Fase 15) -->
+<div class="modal-backdrop" id="integrationsModalBackdrop">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-header">
+      <div class="modal-title">Integraciones</div>
+      <button class="icon-btn" onclick="closeIntegrationsModal()" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="integrationsModalBody">
+      <!-- rendered by renderIntegrationsModal() -->
+    </div>
+  </div>
+</div>
 
 <!-- MODAL: TEAMS -->
 <div class="modal-backdrop" id="teamModalBackdrop">
@@ -2867,9 +3160,14 @@ async function enterApp(){
   updateUserMenu();
   // Switch to the per-user column widths
   applyStoredColumnWidths();
+  // Fase 15: cargar settings scoped al user actual
+  restoreSortState();
+  loadRowDensitySettings();
   // Load the user's team (if the teams system is set up). Degrades gracefully.
   try{ await loadMyTeam(); }catch(e){ console.warn('[teams] not available:', e.message || e); }
   updateTeamLabel();
+  // Fase 15: cargar integraciones (no bloquea si la tabla no existe)
+  try{ await loadUserIntegrations(); }catch(e){ console.warn('[integrations] load failed:', e.message || e); }
   try{
     // Load cloud state BEFORE hiding the overlay
     await loadFromCloud();
@@ -2883,6 +3181,8 @@ async function enterApp(){
   document.querySelector('.app').classList.remove('locked');
   // Subscribe to realtime updates
   try{ subscribeRealtime(); }catch(e){ console.warn('Realtime subscribe failed:', e); }
+  // Fase 15: si volvemos de un OAuth callback, mostrar toast y abrir modal
+  try{ await handleIntegrationCallback(); }catch(e){ console.warn('[integrations] callback failed:', e.message || e); }
 }
 
 /* ---------- Supabase: Data sync ---------- */
@@ -3358,6 +3658,8 @@ function renderTable(){
   } else {
     tableEl.style.display = '';
     empty.style.display = 'none';
+    // Fase 15: aplicar sort antes de renderizar
+    rows = applySort(rows);
     tbody.innerHTML = rows.map((c, i) => {
       const linkVal = c.link || '';
       const validLink = isValidUrl(linkVal);
@@ -3400,6 +3702,9 @@ function renderTable(){
         <td><input type="date" data-id="${c.id}" data-field="eta_warehouse" value="${escapeHtml(c.eta_warehouse||'')}" /></td>
         <td>
           <div class="row-actions">
+            <button class="icon-btn sync" data-id="${c.id}" data-action="sync" title="Sincronizar con Calendar / Asana">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 17 17 7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </button>
             <button class="icon-btn locate" data-id="${c.id}" data-action="locate" title="Centrar en mapa">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 21s-7-7-7-12a7 7 0 0 1 14 0c0 5-7 12-7 12z"/></svg>
             </button>
@@ -3417,6 +3722,9 @@ function renderTable(){
 
   updateStats();
   if(typeof updateBulkBar === 'function') updateBulkBar();
+  // Fase 15: pintar indicadores de sort + adjuntar resize handles + aplicar alturas
+  paintSortIndicators();
+  attachRowResizers();
 }
 function updateStats(){
   const total = state.containers.length;
@@ -4602,6 +4910,7 @@ function setupEvents(){
     if(action === 'delete') deleteContainer(id);
     else if(action === 'track') trackInTrackTrace(id);
     else if(action === 'locate') focusContainer(id);
+    else if(action === 'sync') openSyncMenu(btn, id);
     else if(action === 'asin-click'){
       const asin = btn.dataset.asin;
       if(asin) window.open(buildAmazonUrl(asin), '_blank', 'noopener');
@@ -4777,6 +5086,9 @@ async function boot(){
   try{
     loadFromStorage();
     setupEvents();
+    setupPhase15Events();        // Fase 15: bind toggle row-mode, sort headers, modal
+    restoreSortState();          // Fase 15: cargar sort persistido (scope default; se re-carga post-login)
+    loadRowDensitySettings();    // Fase 15: cargar row mode (default; se re-carga post-login)
     renderTable();
     updateSaveIndicator();
 
@@ -4820,6 +5132,605 @@ async function boot(){
     showBootError(err.message || String(err));
   }
 }
+
+/* ============================================================ */
+/* FASE 15: Ordenamiento + resize vertical + integraciones      */
+/* ============================================================ */
+
+/* ---------- Helpers de localStorage scoped por user ---------- */
+function _userScope(){ return (currentUser && currentUser.id) ? currentUser.id : 'default'; }
+function _sortStateKey(){ return 'sort_state_' + _userScope(); }
+function _rowModeKey(){ return 'row_mode_' + _userScope(); }
+function _rowHeightsKey(){ return 'row_heights_' + _userScope(); }
+
+/* ---------- Sort por columna ---------- */
+// Orden de workflow para Estado (no alfabético)
+const STATE_ORDER_FOR_SORT = ['pendiente', 'transito', 'tránsito', 'puerto', 'aduana', 'entregado'];
+
+// type: 'text' | 'number' | 'date' | 'state' | 'tipo'
+const SORTABLE_COLS = {
+  __index:        { type: 'orig' },     // orden original = como vienen en state.containers
+  container:      { type: 'text' },
+  cuenta:         { type: 'text' },
+  shipment:       { type: 'text' },
+  ecommerce:      { type: 'text' },
+  tipo:           { type: 'tipo' },
+  almacenamiento: { type: 'text' },
+  sku:            { type: 'text' },
+  asin:           { type: 'text' },
+  cajas:          { type: 'number' },
+  unidades:       { type: 'number' },
+  estado:         { type: 'state' },
+  ubicacion:      { type: 'text' },
+  eta:            { type: 'date' },
+  eta_warehouse:  { type: 'date' },
+};
+
+let sortState = { column: null, dir: null };
+
+function restoreSortState(){
+  try {
+    sortState = JSON.parse(localStorage.getItem(_sortStateKey()) || 'null') || { column: null, dir: null };
+  } catch {
+    sortState = { column: null, dir: null };
+  }
+}
+function persistSortState(){
+  try { localStorage.setItem(_sortStateKey(), JSON.stringify(sortState)); } catch {}
+}
+
+function _cmpValue(a, b, type){
+  const aE = a === null || a === undefined || a === '';
+  const bE = b === null || b === undefined || b === '';
+  if(aE && bE) return 0;
+  if(aE) return 1;          // vacíos siempre al final
+  if(bE) return -1;
+  switch(type){
+    case 'number':
+      return (Number(a) || 0) - (Number(b) || 0);
+    case 'date':
+      return new Date(a).getTime() - new Date(b).getTime();
+    case 'state': {
+      const ia = STATE_ORDER_FOR_SORT.indexOf(String(a).toLowerCase());
+      const ib = STATE_ORDER_FOR_SORT.indexOf(String(b).toLowerCase());
+      return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);
+    }
+    case 'tipo':   // FBA antes de AWD
+    case 'text':
+    default:
+      return String(a).localeCompare(String(b), undefined, { numeric: true, sensitivity: 'base' });
+  }
+}
+
+function applySort(rows){
+  if(!sortState.column || !sortState.dir) return rows;
+  if(sortState.column === '__index') return rows;   // # es el orden de inserción
+  const def = SORTABLE_COLS[sortState.column];
+  if(!def) return rows;
+  const dirMult = sortState.dir === 'desc' ? -1 : 1;
+  return [...rows].sort((a, b) => dirMult * _cmpValue(a[sortState.column], b[sortState.column], def.type));
+}
+
+function toggleSort(colKey){
+  if(sortState.column !== colKey){
+    sortState = { column: colKey, dir: 'asc' };
+  } else if(sortState.dir === 'asc'){
+    sortState.dir = 'desc';
+  } else {
+    sortState = { column: null, dir: null };
+  }
+  persistSortState();
+  renderTable();
+  refreshMarkers && refreshMarkers();
+}
+
+function paintSortIndicators(){
+  document.querySelectorAll('thead th.sortable').forEach(th => {
+    const key = th.dataset.sortKey;
+    let ind = th.querySelector('.sort-ind');
+    if(!ind){
+      ind = document.createElement('span');
+      ind.className = 'sort-ind';
+      th.appendChild(ind);
+    }
+    if(sortState.column === key){
+      ind.textContent = sortState.dir === 'asc' ? '↑' : '↓';
+      th.classList.add('is-sorted');
+    } else {
+      ind.textContent = '↕';
+      th.classList.remove('is-sorted');
+    }
+  });
+}
+
+function bindSortHeaders(){
+  document.querySelectorAll('thead th.sortable').forEach(th => {
+    if(th._sortBound) return;
+    th._sortBound = true;
+    th.addEventListener('click', () => toggleSort(th.dataset.sortKey));
+  });
+}
+
+/* ---------- Resize vertical (toggle global + drag per-fila) ---------- */
+let rowMode = 'compact';
+let rowHeights = {};
+
+function loadRowDensitySettings(){
+  rowMode = localStorage.getItem(_rowModeKey()) || 'compact';
+  try { rowHeights = JSON.parse(localStorage.getItem(_rowHeightsKey()) || '{}') || {}; }
+  catch { rowHeights = {}; }
+  document.body.dataset.rowMode = rowMode;
+  updateRowModeIcon();
+}
+
+function updateRowModeIcon(){
+  const ic = document.getElementById('rowModeIconCompact');
+  const ie = document.getElementById('rowModeIconExpanded');
+  if(!ic || !ie) return;
+  if(rowMode === 'expanded'){ ic.style.display = 'none'; ie.style.display = ''; }
+  else { ic.style.display = ''; ie.style.display = 'none'; }
+}
+
+function toggleRowMode(){
+  rowMode = rowMode === 'compact' ? 'expanded' : 'compact';
+  localStorage.setItem(_rowModeKey(), rowMode);
+  document.body.dataset.rowMode = rowMode;
+  updateRowModeIcon();
+  applyRowHeights();
+}
+
+function applyRowHeights(){
+  document.querySelectorAll('tbody tr[data-id]').forEach(tr => {
+    const id = tr.dataset.id;
+    const h = rowHeights[id];
+    if(h && rowMode === 'expanded') tr.style.height = h + 'px';
+    else tr.style.removeProperty('height');
+  });
+}
+
+function attachRowResizers(){
+  document.querySelectorAll('tbody tr[data-id]').forEach(tr => {
+    if(tr.querySelector(':scope > td > .row-resize-handle')) return;
+    const handle = document.createElement('div');
+    handle.className = 'row-resize-handle';
+    handle.addEventListener('mousedown', e => startRowResize(e, tr));
+    const lastTd = tr.querySelector(':scope > td:last-child');
+    if(lastTd){
+      const cs = getComputedStyle(lastTd);
+      if(cs.position === 'static') lastTd.style.position = 'relative';
+      lastTd.appendChild(handle);
+    }
+  });
+  applyRowHeights();
+}
+
+function startRowResize(e, tr){
+  e.preventDefault();
+  e.stopPropagation();
+  const startY = e.clientY;
+  const startH = tr.offsetHeight;
+  const id = tr.dataset.id;
+  document.body.style.cursor = 'ns-resize';
+  document.body.style.userSelect = 'none';
+
+  function onMove(ev){
+    const newH = Math.max(32, startH + (ev.clientY - startY));
+    tr.style.height = newH + 'px';
+    rowHeights[id] = newH;
+  }
+  function onUp(){
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onUp);
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+    try { localStorage.setItem(_rowHeightsKey(), JSON.stringify(rowHeights)); } catch {}
+  }
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onUp);
+}
+
+/* ---------- Integraciones (Google Calendar + Asana) ---------- */
+let userIntegrations = [];   // cache local
+
+async function loadUserIntegrations(){
+  if(!sb || !currentUser){ userIntegrations = []; return; }
+  const { data, error } = await sb.from('user_integrations_public').select('*');
+  if(error){
+    // Si la vista no existe todavía (migración no corrida), degradar silenciosamente
+    console.warn('[integrations] view not available:', error.message || error);
+    userIntegrations = [];
+    return;
+  }
+  userIntegrations = data || [];
+}
+
+function getIntegration(provider){
+  return userIntegrations.find(i => i.provider === provider) || null;
+}
+
+async function connectIntegration(provider){
+  const { data: { session } } = await sb.auth.getSession();
+  if(!session){ toast('Iniciá sesión primero', 'error'); return; }
+  const jwt = encodeURIComponent(session.access_token);
+  window.location.href = '/api/oauth-start?provider=' + provider + '&user_jwt=' + jwt;
+}
+
+function disconnectIntegrationInstructions(provider){
+  const where = provider === 'google'
+    ? 'myaccount.google.com/permissions'
+    : 'asana.com → Profile → My Settings → Apps';
+  toast('Para desconectar completamente, revocá el acceso desde ' + where + ', después re-conectá.', 'info');
+}
+
+async function handleIntegrationCallback(){
+  const params = new URLSearchParams(location.search);
+  const flag = params.get('integration');
+  if(!flag) return;
+  // Limpiar query string para no repetir el toast en reloads
+  try { history.replaceState({}, '', location.pathname); } catch {}
+  if(flag === 'google_ok') toast('✓ Google Calendar conectado', 'success');
+  else if(flag === 'asana_ok') toast('✓ Asana conectado — elegí proyecto en Integraciones', 'success');
+  else if(flag === 'error') toast('Error de integración: ' + (params.get('reason') || 'desconocido'), 'error');
+  await loadUserIntegrations();
+  // Si el modal está abierto, refrescar; sino, abrirlo para que el user vea el estado
+  if(document.getElementById('integrationsModalBackdrop').classList.contains('show')){
+    renderIntegrationsModal();
+  } else if(flag !== 'error'){
+    openIntegrationsModal();
+  }
+}
+
+/* ---------- Modal de integraciones ---------- */
+function openIntegrationsModal(){
+  if(!currentUser){ toast('Iniciá sesión primero', 'error'); return; }
+  // Cerrar el dropdown del user si está abierto
+  const dd = document.getElementById('userDropdown');
+  if(dd) dd.style.display = 'none';
+  renderIntegrationsModal();
+  document.getElementById('integrationsModalBackdrop').classList.add('show');
+}
+function closeIntegrationsModal(){
+  document.getElementById('integrationsModalBackdrop').classList.remove('show');
+}
+
+function renderIntegrationsModal(){
+  const body = document.getElementById('integrationsModalBody');
+  if(!body) return;
+  const g = getIntegration('google');
+  const a = getIntegration('asana');
+
+  body.innerHTML = `
+    <div class="integration-list">
+      <!-- Google Calendar -->
+      <div class="integration-card">
+        <div class="integration-row">
+          <div class="integration-name">
+            <span class="ico">📅</span>
+            <div>
+              <div>Google Calendar</div>
+              ${g && g.account_email ? `<div class="integration-email">${escapeHtml(g.account_email)}</div>` : ''}
+            </div>
+          </div>
+          <span class="integration-pill ${g ? 'on' : 'off'}">${g ? 'Conectado' : 'Desconectado'}</span>
+        </div>
+        <div class="integration-actions">
+          ${g
+            ? `<button class="btn ghost" onclick="disconnectIntegrationInstructions('google')">Desconectar</button>
+               <button class="btn ghost" onclick="connectIntegration('google')">Reconectar</button>`
+            : `<button class="btn primary" onclick="connectIntegration('google')">Conectar Google Calendar</button>`}
+        </div>
+      </div>
+
+      <!-- Asana -->
+      <div class="integration-card">
+        <div class="integration-row">
+          <div class="integration-name">
+            <span class="ico">✅</span>
+            <div>
+              <div>Asana</div>
+              ${a && a.account_email ? `<div class="integration-email">${escapeHtml(a.account_email)}</div>` : ''}
+            </div>
+          </div>
+          <span class="integration-pill ${a ? 'on' : 'off'}">${a ? 'Conectado' : 'Desconectado'}</span>
+        </div>
+        ${a ? `
+          <div class="integration-config">
+            <div class="lbl">Workspace</div>
+            <div class="val">${a.asana_workspace_name ? escapeHtml(a.asana_workspace_name) : '<em>sin elegir</em>'}</div>
+            <div class="lbl">Proyecto destino</div>
+            <div class="val">${a.asana_project_name ? escapeHtml(a.asana_project_name) : '<em>sin elegir — clickeá "Elegir destino"</em>'}</div>
+            <div class="lbl">Sección (opcional)</div>
+            <div class="val">${a.asana_section_name ? escapeHtml(a.asana_section_name) : '<em>sin sección</em>'}</div>
+            <div id="asanaPickerArea"></div>
+          </div>
+        ` : ''}
+        <div class="integration-actions">
+          ${a
+            ? `<button class="btn primary" onclick="openAsanaPicker()">${a.asana_project_id ? 'Cambiar destino' : 'Elegir destino'}</button>
+               <button class="btn ghost" onclick="disconnectIntegrationInstructions('asana')">Desconectar</button>`
+            : `<button class="btn primary" onclick="connectIntegration('asana')">Conectar Asana</button>`}
+        </div>
+      </div>
+
+      <div class="integration-help">
+        Cada usuario conecta sus propias cuentas. Después podés tocar el botón <strong>↗</strong> en cada fila para crear/actualizar eventos y tareas para los ETA de Puerto y Warehouse.
+      </div>
+    </div>
+  `;
+}
+
+async function _asanaApi(qs){
+  const { data: { session } } = await sb.auth.getSession();
+  const r = await fetch('/api/asana-config' + qs, {
+    headers: { Authorization: 'Bearer ' + session.access_token }
+  });
+  return r.json();
+}
+
+async function openAsanaPicker(){
+  const area = document.getElementById('asanaPickerArea');
+  if(!area) return;
+  area.innerHTML = `<div class="integration-help">Cargando workspaces…</div>`;
+
+  const ws = await _asanaApi('?list=workspaces');
+  if(ws.error){ area.innerHTML = `<div class="integration-help">Error: ${escapeHtml(ws.error)}</div>`; return; }
+  const workspaces = ws.items || [];
+  if(!workspaces.length){ area.innerHTML = `<div class="integration-help">No hay workspaces accesibles.</div>`; return; }
+
+  area.innerHTML = `
+    <div class="asana-picker">
+      <div>
+        <label>Workspace</label>
+        <select id="asanaWsSel">
+          ${workspaces.map(w => `<option value="${escapeHtml(w.gid)}">${escapeHtml(w.name)}</option>`).join('')}
+        </select>
+      </div>
+      <div>
+        <label>Proyecto</label>
+        <select id="asanaProjSel" disabled><option>Elegí un workspace…</option></select>
+      </div>
+      <div>
+        <label>Sección (opcional)</label>
+        <select id="asanaSecSel" disabled><option value="">— sin sección —</option></select>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <button class="btn primary" id="asanaPickerSave" disabled>Guardar destino</button>
+        <button class="btn ghost" onclick="document.getElementById('asanaPickerArea').innerHTML=''">Cancelar</button>
+      </div>
+    </div>
+  `;
+
+  const wsSel = document.getElementById('asanaWsSel');
+  const projSel = document.getElementById('asanaProjSel');
+  const secSel = document.getElementById('asanaSecSel');
+  const saveBtn = document.getElementById('asanaPickerSave');
+
+  let projects = [], sections = [];
+
+  async function loadProjects(){
+    projSel.disabled = true; secSel.disabled = true; saveBtn.disabled = true;
+    projSel.innerHTML = '<option>Cargando…</option>';
+    const r = await _asanaApi('?list=projects&workspace_id=' + encodeURIComponent(wsSel.value));
+    if(r.error){ projSel.innerHTML = '<option>Error: ' + escapeHtml(r.error) + '</option>'; return; }
+    projects = r.items || [];
+    if(!projects.length){ projSel.innerHTML = '<option>(sin proyectos)</option>'; return; }
+    projSel.innerHTML = '<option value="">— elegí proyecto —</option>' +
+      projects.map(p => `<option value="${escapeHtml(p.gid)}">${escapeHtml(p.name)}</option>`).join('');
+    projSel.disabled = false;
+  }
+  async function loadSections(){
+    secSel.disabled = true; saveBtn.disabled = true;
+    secSel.innerHTML = '<option value="">— sin sección —</option>';
+    if(!projSel.value) return;
+    const r = await _asanaApi('?list=sections&project_id=' + encodeURIComponent(projSel.value));
+    if(r.error){ return; }
+    sections = r.items || [];
+    if(sections.length){
+      secSel.innerHTML = '<option value="">— sin sección —</option>' +
+        sections.map(s => `<option value="${escapeHtml(s.gid)}">${escapeHtml(s.name)}</option>`).join('');
+    }
+    secSel.disabled = false;
+    saveBtn.disabled = false;
+  }
+
+  wsSel.addEventListener('change', loadProjects);
+  projSel.addEventListener('change', loadSections);
+  await loadProjects();
+
+  saveBtn.addEventListener('click', async () => {
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Guardando…';
+    const wsName = wsSel.options[wsSel.selectedIndex].text;
+    const projName = projSel.options[projSel.selectedIndex].text;
+    const secName = secSel.options[secSel.selectedIndex]?.text || null;
+    const { data: { session } } = await sb.auth.getSession();
+    const r = await fetch('/api/asana-config', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + session.access_token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        workspace_id:   wsSel.value,
+        workspace_name: wsName,
+        project_id:     projSel.value,
+        project_name:   projName,
+        section_id:     secSel.value || null,
+        section_name:   secSel.value ? secName : null,
+      })
+    });
+    const j = await r.json();
+    if(j.ok){
+      toast('✓ Destino guardado', 'success');
+      await loadUserIntegrations();
+      renderIntegrationsModal();
+    } else {
+      toast('Error: ' + (j.error || 'no se pudo guardar'), 'error');
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Guardar destino';
+    }
+  });
+}
+
+/* ---------- Menú de sync por fila ---------- */
+function closeSyncMenus(){
+  document.querySelectorAll('.sync-menu').forEach(m => m.remove());
+}
+
+function openSyncMenu(anchorEl, containerId){
+  closeSyncMenus();
+  const c = state.containers.find(x => x.id === containerId);
+  if(!c){ return; }
+  const g = getIntegration('google');
+  const a = getIntegration('asana');
+  const hasGoogle = !!g;
+  const hasAsana  = !!a && !!a.asana_project_id;
+  const asanaReason = !a ? 'no conectado' : (!a.asana_project_id ? 'sin proyecto' : '');
+  const hasAnyEta = !!(c.eta || c.eta_warehouse);
+
+  const menu = document.createElement('div');
+  menu.className = 'sync-menu';
+  menu.innerHTML = `
+    <div class="sync-menu-head">Sincronizar embarque</div>
+    ${!hasAnyEta ? `<div class="integration-help" style="margin:4px 6px">Este container no tiene fechas de ETA. Agregá al menos una para sincronizar.</div>` : ''}
+    <button data-sync="google"  data-type="both" ${!hasGoogle || !hasAnyEta ? 'disabled' : ''}>
+      📅 Google Calendar ${!hasGoogle ? '<span class="sm-state">no conectado</span>' : ''}
+    </button>
+    <button data-sync="asana"   data-type="both" ${!hasAsana || !hasAnyEta ? 'disabled' : ''}>
+      ✅ Asana ${asanaReason ? '<span class="sm-state">' + asanaReason + '</span>' : ''}
+    </button>
+    <button data-sync="both"    data-type="both" ${(!hasGoogle || !hasAsana || !hasAnyEta) ? 'disabled' : ''}>
+      ↗ Ambos
+    </button>
+    <hr>
+    <div class="sync-menu-head">Granular</div>
+    <button data-sync="google"  data-type="puerto"    ${!hasGoogle || !c.eta ? 'disabled' : ''}>Calendar — solo ETA Puerto</button>
+    <button data-sync="google"  data-type="warehouse" ${!hasGoogle || !c.eta_warehouse ? 'disabled' : ''}>Calendar — solo ETA Warehouse</button>
+    <button data-sync="asana"   data-type="puerto"    ${!hasAsana  || !c.eta ? 'disabled' : ''}>Asana — solo ETA Puerto</button>
+    <button data-sync="asana"   data-type="warehouse" ${!hasAsana  || !c.eta_warehouse ? 'disabled' : ''}>Asana — solo ETA Warehouse</button>
+    <hr>
+    <button class="danger" data-sync="google" data-type="both" data-action="delete" ${!hasGoogle ? 'disabled' : ''}>Borrar eventos de Calendar</button>
+    <button class="danger" data-sync="asana"  data-type="both" data-action="delete" ${!hasAsana  ? 'disabled' : ''}>Borrar tareas de Asana</button>
+    <hr>
+    <button onclick="openIntegrationsModal(); closeSyncMenus();">⚙ Configurar integraciones…</button>
+  `;
+  document.body.appendChild(menu);
+
+  // Posicionar el menú anclado al botón pero contenido en viewport
+  const r = anchorEl.getBoundingClientRect();
+  menu.style.top = (r.bottom + 4) + 'px';
+  // alinear a la derecha del botón
+  const w = 260;
+  menu.style.left = Math.max(8, Math.min(window.innerWidth - w - 8, r.right - w)) + 'px';
+
+  // Bind clicks
+  menu.querySelectorAll('button[data-sync]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const target = btn.dataset.sync;
+      const type   = btn.dataset.type;
+      const action = btn.dataset.action || 'create';
+      closeSyncMenus();
+      await doSync(containerId, target, type, action);
+    });
+  });
+
+  // Cerrar al click fuera o ESC
+  setTimeout(() => {
+    function close(e){
+      if(!menu.contains(e.target)){
+        closeSyncMenus();
+        document.removeEventListener('click', close);
+        document.removeEventListener('keydown', escClose);
+      }
+    }
+    function escClose(e){
+      if(e.key === 'Escape'){
+        closeSyncMenus();
+        document.removeEventListener('click', close);
+        document.removeEventListener('keydown', escClose);
+      }
+    }
+    document.addEventListener('click', close);
+    document.addEventListener('keydown', escClose);
+  }, 0);
+}
+
+async function _callSync(endpoint, body){
+  const { data: { session } } = await sb.auth.getSession();
+  const r = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + session.access_token,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+  return r.json();
+}
+
+async function doSync(containerId, target, type, action){
+  toast(action === 'delete' ? 'Borrando…' : 'Sincronizando…', 'info');
+  const providers = target === 'both' ? ['google', 'asana'] : [target];
+  const out = [];
+  for(const p of providers){
+    const endpoint = p === 'google' ? '/api/sync-to-calendar' : '/api/sync-to-asana';
+    try {
+      const r = await _callSync(endpoint, { container_id: containerId, type, action });
+      out.push({ p, r });
+    } catch (e) {
+      out.push({ p, r: { ok: false, error: e.message } });
+    }
+  }
+  const allOk = out.every(o => o.r && o.r.ok);
+  if(allOk){
+    toast(action === 'delete' ? '✓ Borrado' : '✓ Sincronizado', 'success');
+  } else {
+    const msg = out.map(o => o.p + ': ' + (o.r.error ||
+                  (o.r.results ? Object.values(o.r.results).filter(x => !x.ok).map(x => x.error).join('; ') : 'error')))
+                  .filter(Boolean).join(' | ');
+    toast('⚠ ' + (msg || 'Algunos fallaron'), 'error');
+  }
+}
+
+/* ---------- Auto-sync al cambiar ETA (best-effort, silencioso) ---------- */
+// Llamar después de un update local exitoso si querés mantener Calendar/Asana al día.
+// Solo updatea recursos YA creados; no crea nuevos por si solos.
+async function autoSyncEtaIfLinked(containerId, fieldChanged){
+  if(fieldChanged !== 'eta' && fieldChanged !== 'eta_warehouse') return;
+  if(!currentUser) return;
+  // Necesitamos saber si la fila tiene IDs externos. Leemos la fila desde la DB:
+  if(!sb) return;
+  try {
+    const { data } = await sb.from('containers').select(
+      'gcal_event_id_puerto, gcal_event_id_warehouse, asana_task_id_puerto, asana_task_id_warehouse'
+    ).eq('id', containerId).single();
+    if(!data) return;
+    const t = fieldChanged === 'eta' ? 'puerto' : 'warehouse';
+    const gKey = 'gcal_event_id_' + t;
+    const aKey = 'asana_task_id_' + t;
+    if(data[gKey]){ _callSync('/api/sync-to-calendar', { container_id: containerId, type: t, action: 'create' }).catch(()=>{}); }
+    if(data[aKey]){ _callSync('/api/sync-to-asana',    { container_id: containerId, type: t, action: 'create' }).catch(()=>{}); }
+  } catch {}
+}
+
+/* ---------- Wire-up ---------- */
+function setupPhase15Events(){
+  const btnRowMode = document.getElementById('btnRowMode');
+  if(btnRowMode && !btnRowMode._bound){
+    btnRowMode._bound = true;
+    btnRowMode.addEventListener('click', toggleRowMode);
+  }
+  bindSortHeaders();
+  // Cerrar modal con click en backdrop
+  const back = document.getElementById('integrationsModalBackdrop');
+  if(back && !back._bound){
+    back._bound = true;
+    back.addEventListener('click', e => {
+      if(e.target.id === 'integrationsModalBackdrop') closeIntegrationsModal();
+    });
+  }
+}
+
 
 document.addEventListener('DOMContentLoaded', boot);
 </script>

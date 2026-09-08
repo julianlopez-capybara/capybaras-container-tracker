@@ -3677,6 +3677,7 @@ function schedulePush(containerId){
   pushTimers[containerId] = setTimeout(() => pushContainer(containerId), 1200);
 }
 
+let lastPushErrorAt = 0;
 async function pushContainer(containerId){
   if(!sb || !currentUser) return;
   const c = state.containers.find(x => x.id === containerId);
@@ -3691,6 +3692,12 @@ async function pushContainer(containerId){
   }catch(err){
     console.error('[cloud push] failed:', err);
     setSyncStatus('error');
+    // El indicador "Guardado" del header es solo local: sin esto, un fallo
+    // de nube pasa desapercibido. Throttle 10s para no spamear toasts.
+    if(Date.now() - lastPushErrorAt > 10000){
+      lastPushErrorAt = Date.now();
+      toast('No se guardó en la nube: ' + (err.message || err), 'error');
+    }
   }
 }
 

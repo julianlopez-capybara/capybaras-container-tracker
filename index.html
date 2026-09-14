@@ -992,6 +992,18 @@
     background-position: right 8px center !important;
     background-size: 11px !important;
   }
+  .status-select[data-status="produccion"]{
+    background-color: rgba(124, 92, 214, .14)!important;
+    border-color: rgba(124, 92, 214, .40)!important;
+    color: #7C5CD6!important;
+  }
+  [data-theme="dark"] .status-select[data-status="produccion"]{ color: #9B82E8!important }
+  .status-select[data-status="qc"]{
+    background-color: rgba(0, 163, 163, .14)!important;
+    border-color: rgba(0, 163, 163, .40)!important;
+    color: #00A3A3!important;
+  }
+  [data-theme="dark"] .status-select[data-status="qc"]{ color: #2DD4CE!important }
   .status-select[data-status="pendiente"]{
     background-color: rgba(124, 130, 147, .12)!important;
     border-color: rgba(124, 130, 147, .35)!important;
@@ -1033,7 +1045,7 @@
   }
 
   /* Tipo (carga) + Almacenamiento (canal) — pills tipo Estado */
-  .tipo-select, .alm-select, .via-select{
+  .tipo-select, .alm-select, .via-select, .inco-select, .qc-select{
     appearance: none;
     background-color: var(--bg-elevated) !important;
     border: 1px solid var(--border-medium) !important;
@@ -1065,6 +1077,19 @@
   [data-theme="dark"] .alm-select[data-alm="tiktok"]{ color: #bdbdbd!important }
   .alm-select[data-alm="sfwm3pl"]{ background-color: rgba(100,116,139,.14)!important; border-color: rgba(100,116,139,.45)!important; color: #64748B!important }
   [data-theme="dark"] .alm-select[data-alm="sfwm3pl"]{ color: #94a3b8!important }
+  /* Incoterm (Fase 16) */
+  .inco-select[data-inco="exw"]{ background-color: rgba(255,51,0,.14)!important; border-color: rgba(255,51,0,.40)!important; color: #FF3300!important }
+  .inco-select[data-inco="fob"]{ background-color: rgba(232,91,3,.14)!important; border-color: rgba(232,91,3,.40)!important; color: #E85B03!important }
+  .inco-select[data-inco="cif"]{ background-color: rgba(45,108,223,.14)!important; border-color: rgba(45,108,223,.42)!important; color: #2D6CDF!important }
+  [data-theme="dark"] .inco-select[data-inco="cif"]{ color: #6FA0F5!important }
+  .inco-select[data-inco="dap"]{ background-color: rgba(124,92,214,.14)!important; border-color: rgba(124,92,214,.42)!important; color: #7C5CD6!important }
+  [data-theme="dark"] .inco-select[data-inco="dap"]{ color: #9B82E8!important }
+  .inco-select[data-inco="ddp"]{ background-color: rgba(31,169,113,.14)!important; border-color: rgba(31,169,113,.42)!important; color: #1FA971!important }
+  [data-theme="dark"] .inco-select[data-inco="ddp"]{ color: #22C55E!important }
+  /* Quality Control (Fase 16) */
+  .qc-select[data-qc="si"]{ background-color: rgba(31,169,113,.14)!important; border-color: rgba(31,169,113,.42)!important; color: #1FA971!important }
+  [data-theme="dark"] .qc-select[data-qc="si"]{ color: #22C55E!important }
+  .qc-select[data-qc="no"]{ background-color: rgba(124,130,147,.12)!important; border-color: rgba(124,130,147,.35)!important; color: var(--text-tertiary)!important }
 
   /* Link cell — chameleon: input when empty, button when filled */
   .col-link{ min-width: 140px }
@@ -1587,6 +1612,20 @@
     max-width: 130px;
   }
   .cell-bubble .bubble-text.empty{ color: var(--text-tertiary) }
+  .cell-bubble.qty{ min-width: 32px; justify-content: center }
+  .bubble-total{
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 7px;
+    border-radius: 9999px;
+    border: 1px dashed var(--border-medium);
+    background: transparent;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--text-tertiary);
+    white-space: nowrap;
+  }
   .cell-bubble.asin{ padding: 1px 4px 1px 7px }
   .cell-bubble.asin.empty{ padding: 2px 7px }
   .bubble-asin-link{
@@ -2581,6 +2620,8 @@
         <span class="bulk-count" id="bulkCount">0 seleccionados</span>
         <select class="bulk-status" id="bulkStatusSelect" title="Cambiar estado de los seleccionados">
           <option value="">Cambiar estado…</option>
+          <option value="produccion">En producción</option>
+          <option value="qc">Quality Control</option>
           <option value="pendiente">Pendiente</option>
           <option value="transito">En tránsito</option>
           <option value="puerto">En puerto</option>
@@ -2612,13 +2653,16 @@
               <th class="sortable" data-sort-key="ecommerce">E-commerce</th>
               <th class="sortable" data-sort-key="tipo">Tipo</th>
               <th class="sortable" data-sort-key="via">Vía</th>
+              <th class="sortable" data-sort-key="incoterm">Incoterm</th>
               <th class="sortable" data-sort-key="almacenamiento">Almacenamiento</th>
               <th class="sortable" data-sort-key="sku">SKU</th>
               <th class="sortable" data-sort-key="asin">ASIN</th>
               <th class="sortable" data-sort-key="cajas">Cajas</th>
               <th class="sortable" data-sort-key="unidades">Unidades</th>
+              <th class="sortable" data-sort-key="quality_control">Quality Control</th>
               <th class="sortable" data-sort-key="estado">Estado</th>
               <th class="sortable" data-sort-key="ubicacion">Ubicación</th>
+              <th class="sortable" data-sort-key="etd">ETD</th>
               <th class="sortable" data-sort-key="eta">ETA Puerto Destino</th>
               <th class="sortable" data-sort-key="eta_warehouse">ETA Amz Warehouse</th>
               <th style="text-align:right">Acciones</th>
@@ -2739,6 +2783,17 @@
             </select>
           </div>
           <div class="field">
+            <label for="f-incoterm">Incoterm</label>
+            <select id="f-incoterm">
+              <option value="">—</option>
+              <option value="exw">EXW</option>
+              <option value="fob">FOB</option>
+              <option value="cif">CIF</option>
+              <option value="dap">DAP</option>
+              <option value="ddp">DDP</option>
+            </select>
+          </div>
+          <div class="field">
             <label for="f-almacenamiento">Almacenamiento</label>
             <select id="f-almacenamiento">
               <option value="">—</option>
@@ -2767,14 +2822,28 @@
             <input id="f-unidades" type="number" min="0" placeholder="0" />
           </div>
           <div class="field">
+            <label for="f-qc">Quality Control</label>
+            <select id="f-qc">
+              <option value="">—</option>
+              <option value="si">SI</option>
+              <option value="no">NO</option>
+            </select>
+          </div>
+          <div class="field">
             <label for="f-estado">Estado</label>
             <select id="f-estado">
-              <option value="pendiente">Pendiente</option>
+              <option value="produccion">En producción</option>
+              <option value="qc">Quality Control</option>
+              <option value="pendiente" selected>Pendiente</option>
               <option value="transito">En tránsito</option>
               <option value="puerto">En puerto</option>
               <option value="aduana">En aduana</option>
               <option value="entregado">Entregado</option>
             </select>
+          </div>
+          <div class="field">
+            <label for="f-etd">ETD</label>
+            <input id="f-etd" type="date" />
           </div>
           <div class="field">
             <label for="f-eta">ETA Puerto Destino</label>
@@ -2811,16 +2880,25 @@
       </button>
     </div>
     <div class="modal-body">
-      <div class="form-grid" style="grid-template-columns:1fr">
-        <div class="field">
+      <div class="form-grid" style="grid-template-columns:1fr 1fr">
+        <div class="field full">
           <label for="pairEditSku">SKU</label>
           <input id="pairEditSku" class="mono" placeholder="SKU-001" onkeydown="if(event.key==='Enter'){event.preventDefault();document.getElementById('pairEditAsin').focus();}" />
         </div>
-        <div class="field">
+        <div class="field full">
           <label for="pairEditAsin">ASIN</label>
-          <input id="pairEditAsin" class="mono" placeholder="B0XXXXXXXX" onkeydown="if(event.key==='Enter'){event.preventDefault();savePairEditor();}" />
+          <input id="pairEditAsin" class="mono" placeholder="B0XXXXXXXX" onkeydown="if(event.key==='Enter'){event.preventDefault();document.getElementById('pairEditCajas').focus();}" />
+        </div>
+        <div class="field">
+          <label for="pairEditCajas">Cajas</label>
+          <input id="pairEditCajas" type="number" min="0" placeholder="0" onkeydown="if(event.key==='Enter'){event.preventDefault();document.getElementById('pairEditUnidades').focus();}" />
+        </div>
+        <div class="field">
+          <label for="pairEditUnidades">Unidades</label>
+          <input id="pairEditUnidades" type="number" min="0" placeholder="0" onkeydown="if(event.key==='Enter'){event.preventDefault();savePairEditor();}" />
         </div>
       </div>
+      <div class="hint" style="margin-top:10px">Las cantidades por SKU se suman y actualizan solas las columnas Cajas y Unidades.</div>
     </div>
     <div class="modal-footer">
       <button class="btn danger" id="pairEditRemove" onclick="removePairFromEditor()">Quitar</button>
@@ -3126,6 +3204,8 @@
 const STORAGE_KEY = 'container_tracker_v1';
 
 const STATUS_COLORS = {
+  produccion:'#7C5CD6',
+  qc:        '#00A3A3',
   pendiente: '#A3A3A3',
   transito:  '#F59E0B',
   puerto:    '#FF3300',
@@ -3133,6 +3213,8 @@ const STATUS_COLORS = {
   entregado: '#22C55E'
 };
 const STATUS_LABELS = {
+  produccion:'En producción',
+  qc:        'Quality Control',
   pendiente: 'Pendiente',
   transito:  'En tránsito',
   puerto:    'En puerto',
@@ -3149,6 +3231,17 @@ const VIA_LABELS = {
   terrestre: 'Terrestre',
   aerea:     'Aérea',
   maritima:  'Marítima'
+};
+const INCOTERM_LABELS = {
+  exw: 'EXW',
+  fob: 'FOB',
+  cif: 'CIF',
+  dap: 'DAP',
+  ddp: 'DDP'
+};
+const QC_LABELS = {
+  si: 'SI',
+  no: 'NO'
 };
 const ALM_LABELS = {
   fba:     'FBA',
@@ -3585,13 +3678,18 @@ function containerToRow(c){
     ecommerce:  c.ecommerce  || null,
     tipo:       c.tipo       || null,
     via:        c.via        || null,
+    incoterm:   c.incoterm   || null,
     almacenamiento: c.almacenamiento || null,
     sku:        c.sku        || null,
     asin:       c.asin       || null,
+    cajas_items:    c.cajas_items    || null,
+    unidades_items: c.unidades_items || null,
     cajas:      c.cajas      !== '' && c.cajas      != null ? parseInt(c.cajas)    : null,
     unidades:   c.unidades   !== '' && c.unidades   != null ? parseInt(c.unidades) : null,
+    quality_control: c.quality_control || null,
     estado:     c.estado     || 'pendiente',
     ubicacion:  c.ubicacion  || null,
+    etd:        c.etd        || null,
     eta:        c.eta        || null,
     eta_warehouse: c.eta_warehouse || null,
     archived:   !!c.archived,
@@ -3618,13 +3716,18 @@ function rowToContainer(r){
     ecommerce:  r.ecommerce  || '',
     tipo:       r.tipo       || '',
     via:        r.via        || '',
+    incoterm:   r.incoterm   || '',
     almacenamiento: r.almacenamiento || '',
     sku:        r.sku        || '',
     asin:       r.asin       || '',
+    cajas_items:    r.cajas_items    || '',
+    unidades_items: r.unidades_items || '',
     cajas:      r.cajas      != null ? String(r.cajas)    : '',
     unidades:   r.unidades   != null ? String(r.unidades) : '',
+    quality_control: r.quality_control || '',
     estado:     r.estado     || 'pendiente',
     ubicacion:  r.ubicacion  || '',
+    etd:        r.etd        || '',
     eta:        r.eta        || '',
     eta_warehouse: r.eta_warehouse || '',
     archived:   !!r.archived,
@@ -3824,13 +3927,16 @@ const COLUMNS_DEF = [
   { key: 'ecommerce',     width: 120 },
   { key: 'tipo',          width: 110 },
   { key: 'via',           width: 110 },
+  { key: 'incoterm',      width: 104 },
   { key: 'almacenamiento',width: 150 },
   { key: 'sku',           width: 120 },
   { key: 'asin',          width: 130 },
-  { key: 'cajas',         width: 84  },
-  { key: 'unidades',      width: 96  },
-  { key: 'estado',        width: 140 },
+  { key: 'cajas',         width: 96  },
+  { key: 'unidades',      width: 104 },
+  { key: 'quality_control', width: 132 },
+  { key: 'estado',        width: 150 },
   { key: 'ubicacion',     width: 180 },
+  { key: 'etd',           width: 150 },
   { key: 'eta',           width: 162 },
   { key: 'eta_warehouse', width: 168 },
   { key: 'acciones',      width: 130 }
@@ -4052,6 +4158,22 @@ function viaSelectHtml(id, value){
     ).join('');
   return `<select class="via-select" data-via="${v}" data-id="${id}" data-field="via">${opts}</select>`;
 }
+function incotermSelectHtml(id, value){
+  const v = value || '';
+  const opts = `<option value="" ${v===''?'selected':''}>—</option>` +
+    Object.entries(INCOTERM_LABELS).map(([k,label]) =>
+      `<option value="${k}" ${k===v?'selected':''}>${label}</option>`
+    ).join('');
+  return `<select class="inco-select" data-inco="${v}" data-id="${id}" data-field="incoterm">${opts}</select>`;
+}
+function qcSelectHtml(id, value){
+  const v = value || '';
+  const opts = `<option value="" ${v===''?'selected':''}>—</option>` +
+    Object.entries(QC_LABELS).map(([k,label]) =>
+      `<option value="${k}" ${k===v?'selected':''}>${label}</option>`
+    ).join('');
+  return `<select class="qc-select" data-qc="${v}" data-id="${id}" data-field="quality_control">${opts}</select>`;
+}
 /* ---------- Multi SKU/ASIN emparejados (bubbles) ---------- */
 // Los pares se guardan en las columnas de texto sku/asin separados por '\n'.
 // La línea N de sku empareja con la línea N de asin.
@@ -4063,25 +4185,47 @@ function pairCount(c){
   const asins = splitList(c.asin);
   return Math.max(splitList(c.sku).length, asins.length);
 }
-// Devuelve array de {sku, asin} sin pares totalmente vacíos.
+// Devuelve array de {sku, asin, cajas, unidades} sin pares totalmente vacíos.
+// Fase 16: cajas_items / unidades_items guardan el desglose por SKU, una línea
+// por par, alineado por índice igual que sku/asin.
 function getPairs(c){
   const skus  = splitList(c.sku);
   const asins = splitList(c.asin);
+  const cajas = splitList(c.cajas_items);
+  const units = splitList(c.unidades_items);
   const n = Math.max(skus.length, asins.length, 1);
   const out = [];
   for(let i=0;i<n;i++){
     const sku  = skus[i]  || '';
     const asin = asins[i] || '';
     if(sku === '' && asin === '') continue;
-    out.push({ sku, asin });
+    out.push({ sku, asin, cajas: cajas[i] || '', unidades: units[i] || '' });
   }
   return out;
 }
-// Reescribe c.sku y c.asin desde un array de pares.
+// Normaliza una cantidad a entero >= 0 o string vacío.
+function normQty(v){
+  const n = parseInt(String(v == null ? '' : v).trim(), 10);
+  return (isFinite(n) && n > 0) ? String(n) : '';
+}
+// Totales = suma del desglose por SKU. Si el envío no tiene desglose cargado
+// (registros viejos), se respeta el número manual de la columna.
+function recalcTotals(c){
+  const pairs = getPairs(c);
+  if(pairs.length === 0) return;
+  const hasBreakdown = pairs.some(p => p.cajas !== '' || p.unidades !== '');
+  if(!hasBreakdown) return;
+  c.cajas    = String(pairs.reduce((s,p)=> s + (parseInt(p.cajas)||0), 0));
+  c.unidades = String(pairs.reduce((s,p)=> s + (parseInt(p.unidades)||0), 0));
+}
+// Reescribe c.sku, c.asin y el desglose de cajas/unidades desde un array de pares.
 function setPairs(c, pairs){
   const clean = pairs.filter(p => (p.sku||'').trim() !== '' || (p.asin||'').trim() !== '');
   c.sku  = clean.map(p => (p.sku||'').trim()).join('\n');
   c.asin = clean.map(p => (p.asin||'').trim().toUpperCase()).join('\n');
+  c.cajas_items    = clean.map(p => normQty(p.cajas)).join('\n');
+  c.unidades_items = clean.map(p => normQty(p.unidades)).join('\n');
+  recalcTotals(c);
 }
 // Celdas de bubbles separadas por columna, alineadas por índice de par.
 // which = 'sku' | 'asin'
@@ -4112,6 +4256,29 @@ function pairsColumnHtml(c, which){
     </button>`;
   return `<div class="bubbles-col" data-id="${c.id}" data-col="${which}">${bubbles}${which==='asin'?addBtn:''}</div>`;
 }
+// Fase 16: celdas de Cajas / Unidades. Con pares cargados muestran una burbuja
+// por SKU (alineadas por índice con las columnas SKU/ASIN) + chip de total.
+// Sin pares, se comportan como el input numérico de siempre.
+function qtyColumnHtml(c, which){
+  const field = (which === 'cajas') ? 'cajas' : 'unidades';
+  const pairs = getPairs(c);
+  if(pairs.length === 0){
+    return `<input type="number" min="0" data-id="${c.id}" data-field="${field}" value="${c[field]||''}" placeholder="0" />`;
+  }
+  const bubbles = pairs.map((p, idx) => {
+    const val = (which === 'cajas') ? p.cajas : p.unidades;
+    const tip = p.sku || p.asin || '';
+    const inner = val
+      ? `<span class="bubble-text">${escapeHtml(val)}</span>`
+      : `<span class="bubble-text empty">—</span>`;
+    return `<span class="cell-bubble qty" data-id="${c.id}" data-idx="${idx}" data-field="${field}" data-action="pair-edit" title="${escapeHtml(tip)}">${inner}</span>`;
+  }).join('');
+  const total = pairs.reduce((s,p)=> s + (parseInt((which==='cajas')?p.cajas:p.unidades)||0), 0);
+  const totalChip = (pairs.length > 1)
+    ? `<span class="bubble-total" title="Total de ${field}">\u03a3 ${total}</span>`
+    : '';
+  return `<div class="bubbles-col" data-id="${c.id}" data-col="${field}">${bubbles}${totalChip}</div>`;
+}
 // (helper viejo de celda combinada — no usado; se conserva por compatibilidad)
 function skuAsinCellHtml(c){ return ''; }
 function renderTable(){
@@ -4131,7 +4298,8 @@ function renderTable(){
       (c.sku||'').toLowerCase().includes(search) ||
       (c.asin||'').toLowerCase().includes(search) ||
       (c.ubicacion||'').toLowerCase().includes(search) ||
-      (c.ecommerce||'').toLowerCase().includes(search)
+      (c.ecommerce||'').toLowerCase().includes(search) ||
+      (c.incoterm||'').toLowerCase().includes(search)
     );
   }
 
@@ -4182,13 +4350,16 @@ function renderTable(){
         <td><input data-id="${c.id}" data-field="ecommerce" value="${escapeHtml(c.ecommerce)}" placeholder="—" /></td>
         <td>${tipoSelectHtml(c.id, c.tipo)}</td>
         <td>${viaSelectHtml(c.id, c.via)}</td>
+        <td>${incotermSelectHtml(c.id, c.incoterm)}</td>
         <td>${almSelectHtml(c.id, c.almacenamiento)}</td>
         <td class="col-sku">${pairsColumnHtml(c, 'sku')}</td>
         <td class="col-asin">${pairsColumnHtml(c, 'asin')}</td>
-        <td class="col-num"><input type="number" min="0" data-id="${c.id}" data-field="cajas" value="${c.cajas||''}" placeholder="0" /></td>
-        <td class="col-num"><input type="number" min="0" data-id="${c.id}" data-field="unidades" value="${c.unidades||''}" placeholder="0" /></td>
+        <td class="col-num">${qtyColumnHtml(c, 'cajas')}</td>
+        <td class="col-num">${qtyColumnHtml(c, 'unidades')}</td>
+        <td>${qcSelectHtml(c.id, c.quality_control)}</td>
         <td>${statusSelectHtml(c.id, c.estado || 'pendiente')}</td>
         <td><input data-id="${c.id}" data-field="ubicacion" value="${escapeHtml(c.ubicacion)}" placeholder="Puerto / ciudad" /></td>
+        <td><input type="date" data-id="${c.id}" data-field="etd" value="${escapeHtml(c.etd||'')}" /></td>
         <td><input type="date" data-id="${c.id}" data-field="eta" value="${escapeHtml(c.eta)}" /></td>
         <td><input type="date" data-id="${c.id}" data-field="eta_warehouse" value="${escapeHtml(c.eta_warehouse||'')}" /></td>
         <td>
@@ -4264,13 +4435,18 @@ function addContainer(payload){
     ecommerce: payload.ecommerce || '',
     tipo: payload.tipo || '',
     via: payload.via || '',
+    incoterm: payload.incoterm || '',
     almacenamiento: payload.almacenamiento || '',
     sku: payload.sku || '',
     asin: (payload.asin || '').toUpperCase(),
+    cajas_items: '',
+    unidades_items: '',
     cajas: payload.cajas || '',
     unidades: payload.unidades || '',
+    quality_control: payload.quality_control || '',
     estado: payload.estado || 'pendiente',
     ubicacion: payload.ubicacion || '',
+    etd: payload.etd || '',
     eta: payload.eta || '',
     eta_warehouse: payload.eta_warehouse || '',
     archived: false,
@@ -4282,6 +4458,11 @@ function addContainer(payload){
     lat: null, lng: null,
     createdAt: new Date().toISOString()
   };
+  // Si se cargó un SKU/ASIN en el alta, el desglose arranca con esas cantidades.
+  if(c.sku || c.asin){
+    c.cajas_items    = normQty(c.cajas);
+    c.unidades_items = normQty(c.unidades);
+  }
   state.containers.push(c);
   if(c.ubicacion){
     geocode(c.ubicacion).then(r => {
@@ -4369,14 +4550,18 @@ function editPair(id, idx){
   if(!c) return;
   const pairs = getPairs(c);
   const isNew = idx >= pairs.length;
-  const cur = isNew ? { sku:'', asin:'' } : pairs[idx];
+  const cur = isNew ? { sku:'', asin:'', cajas:'', unidades:'' } : pairs[idx];
 
   const backdrop = document.getElementById('pairEditorBackdrop');
   const skuInput = document.getElementById('pairEditSku');
   const asinInput = document.getElementById('pairEditAsin');
+  const cajasInput = document.getElementById('pairEditCajas');
+  const unidInput = document.getElementById('pairEditUnidades');
   const removeBtn = document.getElementById('pairEditRemove');
   skuInput.value = cur.sku || '';
   asinInput.value = cur.asin || '';
+  cajasInput.value = cur.cajas || '';
+  unidInput.value = cur.unidades || '';
   removeBtn.style.display = isNew ? 'none' : '';
 
   backdrop.dataset.id = id;
@@ -4396,16 +4581,18 @@ function savePairEditor(){
   if(!c){ closePairEditor(); return; }
   const sku  = document.getElementById('pairEditSku').value.trim();
   const asin = document.getElementById('pairEditAsin').value.trim().toUpperCase();
+  const cajas    = normQty(document.getElementById('pairEditCajas').value);
+  const unidades = normQty(document.getElementById('pairEditUnidades').value);
 
   const pairs = getPairs(c);
   if(idx >= pairs.length){
     // nuevo
-    if(sku !== '' || asin !== '') pairs.push({ sku, asin });
+    if(sku !== '' || asin !== '') pairs.push({ sku, asin, cajas, unidades });
   } else {
     if(sku === '' && asin === ''){
       pairs.splice(idx, 1);  // si vació ambos, se elimina
     } else {
-      pairs[idx] = { sku, asin };
+      pairs[idx] = { sku, asin, cajas, unidades };
     }
   }
   setPairs(c, pairs);
@@ -4945,13 +5132,16 @@ function submitModal(){
     ecommerce: v('f-ecommerce'),
     tipo: v('f-tipo'),
     via: v('f-via'),
+    incoterm: v('f-incoterm'),
     almacenamiento: v('f-almacenamiento'),
     sku: v('f-sku'),
     asin: v('f-asin'),
     cajas: v('f-cajas'),
     unidades: v('f-unidades'),
+    quality_control: v('f-qc'),
     estado: v('f-estado'),
     ubicacion: v('f-ubicacion'),
+    etd: v('f-etd'),
     eta: v('f-eta'),
     eta_warehouse: v('f-eta-warehouse')
   });
@@ -5903,7 +6093,7 @@ function _rowHeightsKey(){ return 'row_heights_' + _userScope(); }
 
 /* ---------- Sort por columna ---------- */
 // Orden de workflow para Estado (no alfabético)
-const STATE_ORDER_FOR_SORT = ['pendiente', 'transito', 'tránsito', 'puerto', 'aduana', 'entregado'];
+const STATE_ORDER_FOR_SORT = ['produccion', 'qc', 'pendiente', 'transito', 'tránsito', 'puerto', 'aduana', 'entregado'];
 
 // type: 'text' | 'number' | 'date' | 'state' | 'tipo'
 const SORTABLE_COLS = {
@@ -5914,13 +6104,16 @@ const SORTABLE_COLS = {
   ecommerce:      { type: 'text' },
   tipo:           { type: 'tipo' },
   via:            { type: 'text' },
+  incoterm:       { type: 'text' },
   almacenamiento: { type: 'text' },
   sku:            { type: 'text' },
   asin:           { type: 'text' },
   cajas:          { type: 'number' },
   unidades:       { type: 'number' },
+  quality_control:{ type: 'text' },
   estado:         { type: 'state' },
   ubicacion:      { type: 'text' },
+  etd:            { type: 'date' },
   eta:            { type: 'date' },
   eta_warehouse:  { type: 'date' },
 };

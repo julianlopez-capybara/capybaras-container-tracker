@@ -805,7 +805,7 @@
   .col-resize-handle{
     position: absolute;
     top: 0; right: 0; bottom: 0;
-    width: 8px;
+    width: 7px;
     cursor: col-resize;
     z-index: 10;
     user-select: none;
@@ -815,10 +815,13 @@
     content: '';
     position: absolute;
     top: 25%; bottom: 25%;
-    left: 50%; width: 1px;
+    right: 0; width: 2px;
     background: transparent;
     transition: background .15s;
   }
+  /* Borde izquierdo: agranda la columna hacia la izquierda */
+  .col-resize-handle.left{ right: auto; left: 0 }
+  .col-resize-handle.left::before{ right: auto; left: 0 }
   .col-resize-handle:hover::before,
   .col-resize-handle.dragging::before{
     background: var(--accent);
@@ -4138,16 +4141,26 @@ function setupColumnResize(){
   setupColgroup();
   applyStoredColumnWidths();
 
-  // Inject handles into each <th> except the last (no neighbor to its right)
+  // Inject handles into every <th> (incluida Acciones)
   const ths = document.querySelectorAll('#containersTable thead th');
   ths.forEach((th, idx) => {
-    if(idx >= ths.length - 1) return;
     th.querySelectorAll('.col-resize-handle').forEach(h => h.remove());
+    // Borde derecho: arrastrar a la derecha agranda, a la izquierda achica
     const handle = document.createElement('div');
     handle.className = 'col-resize-handle';
     handle.dataset.colIdx = String(idx);
-    handle.title = 'Arrastrar para redimensionar';
+    handle.dataset.side = 'right';
+    handle.title = 'Arrastrar para redimensionar · doble click = ancho original';
     th.appendChild(handle);
+    // Borde izquierdo: arrastrar a la izquierda agranda la columna hacia ese lado
+    if(idx > 0){
+      const left = document.createElement('div');
+      left.className = 'col-resize-handle left';
+      left.dataset.colIdx = String(idx);
+      left.dataset.side = 'left';
+      left.title = 'Arrastrar para redimensionar · doble click = ancho original';
+      th.appendChild(left);
+    }
   });
 
   // Global drag listeners (only set up once)
@@ -4179,16 +4192,28 @@ function setupColumnResize(){
     const col = cols[idx];
     if(!col) return;
     const currentWidth = parseInt(col.style.width, 10) || col.offsetWidth;
-    drag = { col, startX: e.clientX, startWidth: currentWidth, handle };
+    const wrap = document.getElementById('tableWrap');
+    drag = { col, startX: e.clientX, startWidth: currentWidth, handle,
+             side: handle.dataset.side || 'right', wrap, startScroll: wrap ? wrap.scrollLeft : 0 };
     handle.classList.add('dragging');
     document.body.classList.add('col-resizing');
   });
   document.addEventListener('mousemove', e => {
     if(!drag) return;
-    const dx = e.clientX - drag.startX;
-    const newWidth = Math.max(40, drag.startWidth + dx);
-    drag.col.style.width = newWidth + 'px';
-    syncTableWidth();
+    if(drag.side === 'left'){
+      // Mover a la izquierda = columna más ancha. Compensamos el scroll para que
+      // el borde derecho quede quieto y el izquierdo siga al mouse.
+      const dx = drag.startX - e.clientX;
+      const newWidth = Math.max(40, drag.startWidth + dx);
+      drag.col.style.width = newWidth + 'px';
+      syncTableWidth();
+      if(drag.wrap) drag.wrap.scrollLeft = drag.startScroll + (newWidth - drag.startWidth);
+    } else {
+      const dx = e.clientX - drag.startX;
+      const newWidth = Math.max(40, drag.startWidth + dx);
+      drag.col.style.width = newWidth + 'px';
+      syncTableWidth();
+    }
   });
   document.addEventListener('mouseup', () => {
     if(!drag) return;

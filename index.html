@@ -1104,40 +1104,121 @@
   .ecom-select[data-ecom="tiktok"]{ background-color: rgba(60,60,60,.14)!important; border-color: rgba(60,60,60,.45)!important; color: #4d4d4d!important }
   [data-theme="dark"] .ecom-select[data-ecom="tiktok"]{ color: #bdbdbd!important }
 
-  /* Notas (Fase 17) */
-  table.containers td textarea.notes-input{
+  /* Notas estilo Excel (Fase 18) */
+  :root{
+    --note-bg:     #FFFBE0;
+    --note-border: #E8D98A;
+    --note-text:   #2A2A1F;
+    --note-mark:   #E5484D;
+  }
+  [data-theme="dark"]{
+    --note-bg:     #1E1C12;
+    --note-border: #5C5530;
+    --note-text:   #F2EED6;
+    --note-mark:   #FF6B6B;
+  }
+  table.containers td.col-notas{ position: relative }
+  .note-cell{
+    position: relative;
     display: block;
     width: 100%;
-    height: 30px;
-    resize: none;
-    background: transparent;
+    min-height: 30px;
+    padding: 6px 14px 6px 8px;
+    border-radius: var(--r-input);
     border: 1px solid transparent;
-    color: var(--text-primary);
-    font: inherit;
     font-family: var(--font-ui);
     font-size: 13px;
     line-height: 1.45;
     letter-spacing: -0.13px;
-    padding: 5px 8px;
-    border-radius: var(--r-input);
-    overflow: hidden;
+    color: var(--text-primary);
     white-space: nowrap;
-    transition: all .15s;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+    box-sizing: border-box;
   }
-  table.containers td textarea.notes-input::placeholder{ color: var(--text-tertiary) }
-  table.containers td textarea.notes-input:hover{ background: var(--bg-elevated) }
-  table.containers td textarea.notes-input:focus{
-    outline: none;
-    background: var(--bg);
-    border-color: var(--midnight-navy);
+  .note-cell:hover{ background: var(--bg-elevated) }
+  .note-cell:focus-visible{ outline: none; border-color: var(--accent) }
+  .note-cell .ph{ color: var(--text-tertiary) }
+  /* Triangulito rojo en la esquina, como Excel */
+  .note-cell.has-note::after{
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 0; height: 0;
+    border-top: 8px solid var(--note-mark);
+    border-left: 8px solid transparent;
+    border-top-right-radius: 2px;
   }
-  [data-theme="dark"] table.containers td textarea.notes-input:focus{ border-color: var(--accent) }
-  body[data-row-mode="expanded"] table.containers td textarea.notes-input{
+  .note-cell.active{ background: var(--note-bg); border-color: var(--note-border) }
+  body[data-row-mode="expanded"] .note-cell{
     white-space: pre-wrap;
-    height: auto;
-    min-height: 64px;
-    overflow: auto;
-    resize: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+  .note-popover{
+    position: fixed;
+    z-index: 3000;
+    display: none;
+    flex-direction: column;
+    width: 280px;
+    background: var(--note-bg);
+    border: 1px solid var(--note-border);
+    border-radius: 6px;
+    box-shadow: var(--shadow-md);
+    color: var(--note-text);
+  }
+  .note-popover.open{ display: flex; animation: notePop .12s ease-out }
+  @keyframes notePop{ from{ opacity: 0; transform: translateY(-3px) } to{ opacity: 1; transform: none } }
+  .note-pop-head{
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 8px 0 12px;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .note-pop-head .num{
+    font-family: var(--font-mono);
+    font-weight: 500;
+    opacity: .7;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .note-pop-head .close{
+    margin-left: auto;
+    width: 22px; height: 22px;
+    display: grid; place-items: center;
+    border: 0; background: transparent; color: inherit;
+    border-radius: 9999px; cursor: pointer; opacity: .6;
+  }
+  .note-pop-head .close:hover{ opacity: 1; background: rgba(0,0,0,.06) }
+  [data-theme="dark"] .note-pop-head .close:hover{ background: rgba(255,255,255,.08) }
+  .note-popover textarea{
+    display: block;
+    width: 100%;
+    min-width: 200px;
+    min-height: 110px;
+    max-height: 60vh;
+    height: 140px;
+    padding: 6px 12px 8px;
+    box-sizing: border-box;
+    border: 0;
+    outline: none;
+    resize: both;
+    background: transparent;
+    color: inherit;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .note-popover textarea::placeholder{ color: inherit; opacity: .45 }
+  .note-pop-foot{
+    padding: 0 12px 8px;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    opacity: .55;
   }
   .field textarea{
     background: var(--bg);
@@ -3237,6 +3318,19 @@
   </div>
 </div>
 
+<!-- NOTA FLOTANTE ESTILO EXCEL (Fase 18) -->
+<div class="note-popover" id="notePopover" role="dialog" aria-label="Nota del envío">
+  <div class="note-pop-head">
+    <span>Nota</span>
+    <span class="num" id="notePopNum"></span>
+    <button class="close" type="button" id="notePopClose" aria-label="Cerrar nota">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <textarea id="notePopText" placeholder="Escribí una nota para este envío…"></textarea>
+  <div class="note-pop-foot">Se guarda solo · click afuera o Esc para cerrar</div>
+</div>
+
 <!-- SEARATES TRACKING PANEL -->
 
 <div class="searates-panel-backdrop" id="srBackdrop" onclick="closeSeaRates()"></div>
@@ -4505,6 +4599,11 @@ function qtyColumnHtml(c, which){
 // (helper viejo de celda combinada — no usado; se conserva por compatibilidad)
 function skuAsinCellHtml(c){ return ''; }
 function renderTable(){
+  setTimeout(() => {
+    if(!notePopId) return;
+    const cell = noteCellEl(notePopId);
+    if(cell){ cell.classList.add('active'); positionNotePopover(); } else closeNotePopover();
+  }, 0);
   const tbody = document.getElementById('tableBody');
   const empty = document.getElementById('emptyState');
   const tableEl = document.getElementById('containersTable');
@@ -4568,7 +4667,7 @@ function renderTable(){
         <td class="col-check"><input type="checkbox" class="row-check" data-id="${c.id}"${selectedIds.has(c.id)?' checked':''} /></td>
         <td class="col-row">${i+1}</td>
         <td class="col-container"><input data-id="${c.id}" data-field="container" value="${escapeHtml(c.container)}" maxlength="11" /></td>
-        <td class="col-notas"><textarea class="notes-input" rows="1" data-id="${c.id}" data-field="notas" placeholder="Agregar nota…" title="${escapeHtml(c.notas||'')}">${escapeHtml(c.notas||'')}</textarea></td>
+        <td class="col-notas">${noteCellInner(c)}</td>
         <td>${cuentaSelectHtml(c.id, c.cuenta)}</td>
         <td class="col-shipment"><input data-id="${c.id}" data-field="shipment" value="${escapeHtml(c.shipment)}" placeholder="—" /></td>
         <td class="col-link">${linkCell}</td>
@@ -6030,6 +6129,139 @@ function renderCuentasModal(){
     b.onclick = () => deleteCuenta(b.dataset.cuentaDel);
   });
 }
+
+/* ---------- Notas estilo Excel (Fase 18) ---------- */
+function notePreview(text){
+  // Primera línea con contenido; el resto se ve al abrir la nota
+  return String(text || '').trim();
+}
+function noteCellInner(c){
+  const txt = notePreview(c.notas);
+  const has = !!txt;
+  return `<div class="note-cell ${has ? 'has-note' : ''}" data-note-id="${c.id}" tabindex="0" role="button"
+            title="${has ? 'Click para ver / editar la nota' : 'Click para agregar una nota'}">${
+            has ? escapeHtml(txt) : '<span class="ph">Agregar nota…</span>'}</div>`;
+}
+
+let notePopId = null;
+
+function noteCellEl(id){
+  return document.querySelector(`.note-cell[data-note-id="${CSS.escape(id)}"]`);
+}
+
+function refreshNoteCell(id){
+  const c = state.containers.find(x => x.id === id);
+  const el = noteCellEl(id);
+  if(!c || !el) return;
+  const txt = notePreview(c.notas);
+  el.classList.toggle('has-note', !!txt);
+  el.innerHTML = txt ? escapeHtml(txt) : '<span class="ph">Agregar nota…</span>';
+  el.title = txt ? 'Click para ver / editar la nota' : 'Click para agregar una nota';
+}
+
+function positionNotePopover(){
+  const pop = document.getElementById('notePopover');
+  const cell = notePopId && noteCellEl(notePopId);
+  if(!pop || !cell) return closeNotePopover();
+  const r = cell.getBoundingClientRect();
+  // Si la celda salió de la vista (scroll), se cierra como en Excel al perder la celda
+  if(r.bottom < 0 || r.top > window.innerHeight || r.right < 0 || r.left > window.innerWidth){
+    return closeNotePopover();
+  }
+  const pw = pop.offsetWidth, ph = pop.offsetHeight, gap = 8, m = 8;
+  // Por defecto a la derecha de la celda, alineado arriba
+  let left = r.right + gap;
+  if(left + pw > window.innerWidth - m) left = r.left - pw - gap;      // no entra: a la izquierda
+  if(left < m) left = Math.min(Math.max(m, r.left), window.innerWidth - pw - m);  // tampoco: debajo
+  let top = (left === r.right + gap || left === r.left - pw - gap) ? r.top : r.bottom + gap;
+  if(top + ph > window.innerHeight - m) top = window.innerHeight - ph - m;
+  if(top < m) top = m;
+  pop.style.left = Math.round(left) + 'px';
+  pop.style.top  = Math.round(top) + 'px';
+}
+
+function openNotePopover(id){
+  const c = state.containers.find(x => x.id === id);
+  if(!c) return;
+  if(notePopId && notePopId !== id) closeNotePopover();
+  notePopId = id;
+  const pop = document.getElementById('notePopover');
+  const ta = document.getElementById('notePopText');
+  document.getElementById('notePopNum').textContent = c.container || c.shipment || '';
+  ta.value = c.notas || '';
+  document.querySelectorAll('.note-cell.active').forEach(e => e.classList.remove('active'));
+  const cell = noteCellEl(id);
+  if(cell) cell.classList.add('active');
+  pop.classList.add('open');
+  positionNotePopover();
+  ta.focus();
+  ta.setSelectionRange(ta.value.length, ta.value.length);
+}
+
+function closeNotePopover(){
+  const pop = document.getElementById('notePopover');
+  if(!pop || !pop.classList.contains('open')) { notePopId = null; return; }
+  pop.classList.remove('open');
+  document.querySelectorAll('.note-cell.active').forEach(e => e.classList.remove('active'));
+  const id = notePopId;
+  notePopId = null;
+  if(id) refreshNoteCell(id);
+}
+
+function setupNotePopover(){
+  const pop = document.getElementById('notePopover');
+  const ta = document.getElementById('notePopText');
+  if(!pop || setupNotePopover._wired) return;
+  setupNotePopover._wired = true;
+
+  // Abrir: click en la celda (o Enter / Espacio con la celda enfocada)
+  document.addEventListener('click', e => {
+    const cell = e.target.closest && e.target.closest('.note-cell');
+    if(cell){ openNotePopover(cell.dataset.noteId); }
+  });
+  document.addEventListener('keydown', e => {
+    const cell = e.target.closest && e.target.closest('.note-cell');
+    if(cell && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); openNotePopover(cell.dataset.noteId); }
+  });
+
+  // Guardado automático mientras se escribe (usa el mismo debounce de siempre)
+  ta.addEventListener('input', () => {
+    if(!notePopId) return;
+    updateContainerField(notePopId, 'notas', ta.value);
+    refreshNoteCell(notePopId);
+    const cell = noteCellEl(notePopId);
+    if(cell) cell.classList.add('active');
+  });
+
+  // Cerrar: click afuera del cuadro (y afuera de la celda)
+  document.addEventListener('mousedown', e => {
+    if(!notePopId) return;
+    if(pop.contains(e.target)) return;
+    if(e.target.closest && e.target.closest('.note-cell')) return;
+    closeNotePopover();
+  }, true);
+
+  // Esc cierra la nota antes que cualquier otro modal
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && notePopId){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      closeNotePopover();
+    }
+  }, true);
+
+  document.getElementById('notePopClose').addEventListener('click', closeNotePopover);
+
+  // Acompaña a la celda al scrollear o cambiar el tamaño de la ventana
+  const wrap = document.getElementById('tableWrap');
+  if(wrap) wrap.addEventListener('scroll', () => notePopId && positionNotePopover(), { passive: true });
+  window.addEventListener('scroll', () => notePopId && positionNotePopover(), { passive: true });
+  window.addEventListener('resize', () => notePopId && positionNotePopover());
+  // Si se agranda el cuadro desde la esquina, que no se salga de la pantalla
+  if(window.ResizeObserver) new ResizeObserver(() => notePopId && positionNotePopover()).observe(pop);
+}
+document.addEventListener('DOMContentLoaded', setupNotePopover);
+if(document.readyState !== 'loading') setTimeout(setupNotePopover, 0);
 
 /* ---------- Bulk selection ---------- */
 function currentVisibleIds(){
